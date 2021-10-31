@@ -1,0 +1,52 @@
+# OS file
+*~
+*.bak
+.DS_Store
+Thumbs.db
+
+# IDE user config
+.vscode/
+.idea/
+.vs/
+.buildpath
+.project
+.settings
+*.tmproj
+nbproject/
+tags
+
+# npm
+node_modules/
+/package-lock.json
+.env
+.yarn
+
+# Logs
+yarn-error.log
+npm-debug.log
+lerna-debug.log
+
+# Istanbul coverage
+coverage/
+
+# cypress
+cypress/screenshots
+cypress/videos
+
+.vercel
+.now
+
+# config
+/src/client/js/config/config.json
+
+# public
+/public/assets/js/*
+/public/assets/css/*
+/public/.htaccess
+
+# Terraform
+/static-site/.terraform
+/static-site/.terraform.lock.hcl
+/static-site/.terraform.tfstate.lock.info
+/static-site/terraform.tfvars
+/static-site/terraform.tfstate*

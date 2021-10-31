@@ -1,0 +1,7 @@
+{
+  "domain": "localhost",
+  "port": 5000,
+  "baseUrl": "/",
+  "isSSL": false,
+  "siteName": "Sample Site"
+}
