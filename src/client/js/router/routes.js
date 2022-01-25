@@ -10,6 +10,8 @@ import RequiredEmailVerification from '@/templates/RequiredEmailVerification'
 import UserVerifyEmail from '@/templates/UserVerifyEmail'
 import UserTop from '@/templates/UserTop'
 import Settings from '@/templates/Settings'
+import Post from '@/templates/Post'
+import Posts from '@/templates/Posts'
 import AdminTop from '@/templates/AdminTop'
 //import AdminUsers from '@/templates/AdminUsers'
 //import UserCreate from '@/templates/UserCreate'
@@ -58,6 +60,16 @@ export default [
     name: 'Settings',
     component: Settings,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/posts/:serviceId/:slug',
+    name: 'Post',
+    component: Post,
+  },
+  {
+    path: '/posts/:serviceId',
+    name: 'Posts',
+    component: Posts,
   },
   {
     path: '/admin/signin',
