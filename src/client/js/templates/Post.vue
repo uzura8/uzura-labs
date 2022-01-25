@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="post">
   <h1 class="title">{{ post.title }}</h1>
   <div>
     hogehoge
@@ -7,7 +7,7 @@
   <time
    itemprop="datepublished"
     :datetime="post.publishAt | dateFormat('')"
-  >{{ post.publisheeAt | dateFormat }}</time>
+  >{{ post.publishAt | dateFormat }}</time>
 </div>
 </template>
 <script>

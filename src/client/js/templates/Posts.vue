@@ -32,9 +32,14 @@
       </div>
     </li>
   </ul>
+
+  <nav v-if="hasNext" class="u-mt2r">
+    <a class="u-clickable" @click="fetchPosts({ untilTime:lastItemPublishedAt })">{{ $t('common.more') }}</a>
+  </nav>
 </div>
 </template>
 <script>
+import moment from '@/moment'
 import { Post } from '@/api'
 
 export default{
@@ -43,12 +48,20 @@ export default{
   data(){
     return {
       posts: [],
+      hasNext: false,
+      listCount: 3,
     }
   },
 
   computed: {
     serviceId() {
       return this.$route.params.serviceId
+    },
+
+    lastItemPublishedAt () {
+      const lastIndex = this.posts.length - 1
+      return this.posts.length > 0 ? encodeURI(this.posts[lastIndex].publishAt) : null
+      //return this.posts.length > 0 ? encodeURI(moment(this.posts[lastIndex].publishAt).toISOString()) : null
     },
   },
 
@@ -57,8 +70,41 @@ export default{
   },
 
   methods: {
-    async fetchPosts() {
-      this.posts = await Post.get(this.serviceId)
+    async fetchPosts(params = {}, isLatest = false) {
+      const params_copied = { ...params }
+      params_copied.count = this.listCount + 1
+      //this.listLoaded = false
+      this.$store.dispatch('setLoading', true)
+      try {
+        let items
+        if (this.isProducerPage) {
+          items = await Post.get(this.serviceId, null, params_copied)
+        } else {
+          items = await Post.get(this.serviceId, null, params_copied)
+        }
+        if (isLatest) {
+          items.reverse()
+        } else {
+          if (items.length > this.listCount) {
+            items.pop()
+            this.hasNext = true
+          } else {
+            this.hasNext = false
+          }
+        }
+        items.map(item => {
+          if (isLatest) {
+            this.posts.unshift(item)
+          } else {
+            this.posts.push(item)
+          }
+        })
+        //this.listLoaded = true
+        this.$store.dispatch('setLoading', false)
+      } catch (err) {
+        this.$store.dispatch('setLoading', false)
+        this.handleApiError(err, this.$t('msg["Failed to get data from server"]'))
+      }
     },
   },
 }
