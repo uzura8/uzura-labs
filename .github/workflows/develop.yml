@@ -1,8 +1,9 @@
-name: Deploy Static Site on S3
+name: develop
+
 on:
   push:
       branches:
-        - master
+        - develop
 jobs:
   deploy:
     name: Upload to S3
@@ -13,7 +14,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
 
     - name: Configure AWS credentials from account
       uses: aws-actions/configure-aws-credentials@v1
@@ -22,11 +23,14 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-northeast-1
 
+    #- name: Copy config file
+    #  run: cp ./src/js/config/config.json.dev ./src/js/config/config.json
+
     - name: Download config file from S3
       env: 
-        S3_CONFIG_BUCKET: ${{ secrets.S3_CONFIG_BUCKET }}
+        S3_CONFIG_BUCKET: ${{ secrets.S3_CONFIG_BUCKET_DEV }}
       run: |
-        aws s3 cp s3://$S3_CONFIG_BUCKET/config.json ./src/client/js/config/  --quiet
+        aws s3 cp s3://$S3_CONFIG_BUCKET/config.json ./src/client/js/config/ --quiet
 
     - name: Build by Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
@@ -37,15 +41,15 @@ jobs:
 
     - name: Copy Files to s3
       env: 
-        S3_RESOURCE_BUCKET: ${{ secrets.S3_RESOURCE_BUCKET }}
+        S3_RESOURCE_BUCKET: ${{ secrets.S3_RESOURCE_BUCKET_DEV }}
       run: |
-        aws s3 sync ./public s3://$S3_RESOURCE_BUCKET
+          aws s3 sync ./public s3://$S3_RESOURCE_BUCKET
 
     # Clear CloudFront Caches
     - name: Clear cache in CloudFront
       uses: chetan/invalidate-cloudfront-action@v1.2
       env:
-        DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION }}
+        DISTRIBUTION: ${{ secrets.CLOUDFRONT_DISTRIBUTION_DEV }}
         PATHS: "/*"
         AWS_REGION: ap-northeast-1
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
