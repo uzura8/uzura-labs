@@ -16,11 +16,17 @@ You need below
 * Access to https://github.com/{your-account}/{repository-name}/settings/secrets/actions
 * Push "New repository secret"
 * Add Below
-    * __AWS_ACCESS_KEY_ID__ : your-aws-access_key
-    * __AWS_SECRET_ACCESS_KEY__ : your-aws-secret_key
-    * __CLOUDFRONT_DISTRIBUTION__ : your cloudfront distribution created by terraform 
-    * __S3_CONFIG_BUCKET__: "content-api-config-hoge"
-    * __S3_RESOURCE_BUCKET__: "your-domain-static-site.example.com"
+    * Common
+        * __AWS_ACCESS_KEY_ID__ : your-aws-access_key
+        * __AWS_SECRET_ACCESS_KEY__ : your-aws-secret_key
+    * For Production
+        * __CLOUDFRONT_DISTRIBUTION__ : your cloudfront distribution created by terraform for production
+        * __S3_CONFIG_BUCKET__: "frontend-configs/content-api-config-prd" for production
+        * __S3_RESOURCE_BUCKET__: "your-domain-static-site.example.com" for production
+    * For Develop
+        * __CLOUDFRONT_DISTRIBUTION_DEV__ : your cloudfront distribution created by terraform for develop
+        * __S3_CONFIG_BUCKET_DEV__: "frontend-configs/content-api-config-dev" for develop
+        * __S3_RESOURCE_BUCKET_DEV__: "your-domain-static-site-dev.example.com" for develop
 
 ### Upload config file for frontend app
 
