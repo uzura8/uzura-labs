@@ -12,6 +12,7 @@ import UserTop from '@/templates/UserTop'
 import Settings from '@/templates/Settings'
 import Post from '@/templates/Post'
 import Posts from '@/templates/Posts'
+import PostCategories from '@/templates/PostCategories'
 import AdminTop from '@/templates/AdminTop'
 //import AdminUsers from '@/templates/AdminUsers'
 //import UserCreate from '@/templates/UserCreate'
@@ -60,6 +61,11 @@ export default [
     name: 'Settings',
     component: Settings,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/posts/:serviceId/categories/:categorySlug?',
+    name: 'PostCategories',
+    component: PostCategories,
   },
   {
     path: '/posts/:serviceId/:slug',
