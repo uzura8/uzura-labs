@@ -66,6 +66,13 @@ export default{
     },
   },
 
+  watch: {
+    categorySlug() {
+      this.posts = []
+      this.fetchPosts()
+    },
+  },
+
   async created() {
     await this.fetchPosts()
   },
@@ -77,7 +84,6 @@ export default{
       if (this.categorySlug) {
         params_copied.category = this.categorySlug
       }
-      //this.listLoaded = false
       this.$store.dispatch('setLoading', true)
       try {
         let items = await Post.get(this.serviceId, null, params_copied)
@@ -98,7 +104,6 @@ export default{
             this.posts.push(item)
           }
         })
-        //this.listLoaded = true
         this.$store.dispatch('setLoading', false)
       } catch (err) {
         this.$store.dispatch('setLoading', false)
