@@ -34,15 +34,21 @@ export default{
     },
   },
 
+  watch: {
+    categorySlug(val) {
+      this.fetchCategory(val)
+    },
+  },
+
   async created() {
-    await this.fetchCategory()
+    await this.fetchCategory(this.categorySlug)
   },
 
   methods: {
-    async fetchCategory() {
+    async fetchCategory(categorySlug) {
       this.$store.dispatch('setLoading', true)
       try {
-        this.category = await Category.get(this.serviceId, this.categorySlug)
+        this.category = await Category.get(this.serviceId, categorySlug)
         this.$store.dispatch('setLoading', false)
       } catch (err) {
         this.$store.dispatch('setLoading', false)
