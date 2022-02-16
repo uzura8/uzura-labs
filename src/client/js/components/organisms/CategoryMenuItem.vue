@@ -4,7 +4,12 @@
     :class="{ 'is-active': activeCategorySlug == category.slug }"
     @click="isExpanded = !isExpanded"
   >
-    {{ category.label }}
+    <span
+      class="u-underline"
+      @click="linkToCate(category.slug)"
+    >
+      {{ category.label }}
+    </span>
     <b-icon
       class="is-pulled-right"
       pack="fas"
@@ -78,6 +83,10 @@ export default {
         if (item.slug === currentCateSlug) return true
       }
       return false
+    },
+
+    linkToCate(cateSlug) {
+      this.$router.push(`/posts/${this.serviceId}/categories/${cateSlug}`)
     },
   }
 }

@@ -73,7 +73,9 @@ a:not([href]) {
   z-index: 10;
   background-color:rgba(255,255,255,0.7);
 }
-.u-clickable {cursor: pointer;}
+.u-clickable { cursor: pointer; }
+.u-underline { text-decoration: underline; }
+
 .u-minw100 { min-width: 100%; }
 
 .u-bg-tr { background-color: transparent !important; }
