@@ -17,6 +17,7 @@ const state = {
     user: null,
     token: null,
   },
+  adminUser: null
 }
 
 export default new Vuex.Store({

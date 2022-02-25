@@ -18,7 +18,10 @@
     <div class="navbar-start">
       <router-link to="/admin" class="navbar-item">{{ $t('page.adminTop') }}</router-link>
       <router-link to="/admin/users" class="navbar-item">{{ $t('page.UserManagement') }}</router-link>
-      <a v-if="isAuth" class="navbar-item u-clickable" @click="signOut">{{ $t('common.signOut') }}</a>
+      <router-link
+        v-if="isAdminUser"
+        to="/admin/signout" class="navbar-item"
+      >{{ $t('common.signOut') }}</router-link>
       <router-link to="/" class="navbar-item">{{ $t('page.siteTop') }}</router-link>
     </div>
   </div>

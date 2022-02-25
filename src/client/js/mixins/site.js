@@ -21,11 +21,11 @@ export default {
       return this.$route.path.startsWith('/admin')
     },
 
-    isAuth: function () {
-      return false
+    isAdminUser() {
+      return this.$store.getters.isAdminUser()
     },
 
-    isAdmin: function () {
+    isAuth: function () {
       return false
     },
   },

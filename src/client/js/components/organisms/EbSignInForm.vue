@@ -36,7 +36,10 @@
     </div>
   </div>
 
-  <div class="field is-grouped">
+  <div
+    v-if="!isAdminPath"
+    class="field is-grouped"
+  >
     <div class="control">
       <button
         class="button"
@@ -84,6 +87,9 @@ export default {
   },
 
   created: function() {
+    if (this.isAdminPath && this.isAdminUser) {
+      this.redirectByQueryForAdmin()
+    }
   },
 
   methods: {
@@ -91,26 +97,54 @@ export default {
       this.validateAll()
       if (this.hasErrors) {
         this.showGlobalMessage(this.$t('msg["Correct inputs"]'))
-      } else {
-        try {
-          const vals = {
-            email: this.email,
-            password: this.password,
-          }
-          await this.$store.dispatch('authenticateWithEmailAndPassword', vals)
-          if (!this.checkEmpty(this.$route.query.redirect)) {
-            this.$router.push({ path:this.$route.query.redirect })
-          } else {
-            if (this.isUseAdmin && this.isAdmin) {
-              this.$router.push({ name:'AdminTop' })
-            } else {
-              this.$router.push({ name:'UserTop' })
-            }
-          }
-        } catch (err) {
-          this.handleApiError(err, this.$t('msg["Sign In failed"]'))
-        }
+        return
       }
+
+      if (this.isAdminPath) {
+        await this.signInAdmin()
+      } else {
+        await this.signInUser()
+      }
+    },
+
+    async signInUser() {
+      try {
+        const vals = {
+          email: this.email,
+          password: this.password,
+        }
+        //await this.$store.dispatch('authenticateWithEmailAndPassword', vals)
+        await this.$store.dispatch('authenticate', vals)
+        const locationTo = this.$route.query.redirect
+          ? String(this.$route.query.redirect)
+          : ''
+        if (locationTo) {
+          this.$router.push(locationTo)
+        } else {
+          this.$router.push('/user')
+        }
+      } catch (err) {
+        this.handleApiError(err, this.$t('msg["Sign In failed"]'))
+      }
+    },
+
+    async signInAdmin() {
+      try {
+        this.$store.dispatch('setLoading', true)
+        const res = await this.$cognito.signIn(this.email, this.password)
+        this.$emit('email-signin-complete', 'admin')
+        this.$store.dispatch('setLoading', false)
+        this.redirectByQueryForAdmin()
+      } catch (err) {
+        console.log(err);//!!!!!!
+        this.$store.dispatch('setLoading', false)
+        this.handleApiError(err, this.$t('msg["Sign In failed"]'))
+      }
+    },
+
+    redirectByQueryForAdmin() {
+      const redirectTo = this.$route.query.redirect
+      this.$router.replace(redirectTo ? redirectTo : '/admin')
     },
 
     signInWithOAuth: async function(providerName) {

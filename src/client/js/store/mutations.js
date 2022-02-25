@@ -6,6 +6,10 @@ export default {
     state.common.isLoading = isLoading
   },
 
+  [types.SET_ADMIN_USER] (state, payload) {
+    state.adminUser = payload
+  },
+
   //[types.AUTH_SET_USER] (state, payload) {
   //  state.auth.user = payload
   //},
