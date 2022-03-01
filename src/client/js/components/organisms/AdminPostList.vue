@@ -1,35 +1,44 @@
 <template>
 <div>
-  <ul v-if="posts">
-    <li
-      v-for="post in posts"
-      class="block"
-    >
-      <div class="card">
-        <div class="card-content">
-          <div class="media">
-            <div class="media-content">
-              <h4 class="title is-4">
-                <router-link
-                  :to="`/posts/${serviceId}/${post.slug}`"
-                >{{ post.title }}</router-link>
-              </h4>
-            </div>
-          </div>
-
-          <div class="content">
-            {{ post.body }}
-            <br>
-            <time
-             itemprop="datepublished"
-              :datetime="post.publishAt | dateFormat('')"
-            >{{ post.publisheeAt | dateFormat }}</time>
-          </div>
-        </div>
-      </div>
-    </li>
-  </ul>
-
+  <table
+    v-if="posts"
+    class="table is-fullwidth"
+  >
+    <thead>
+      <tr>
+        <th class="is-size-6">{{ $t('common.category') }}</th>
+        <th class="is-size-6">{{ $t('form.title') }}</th>
+        <th class="is-size-6">{{ $t('form.Slug') }}</th>
+        <th class="is-size-7">{{ $t('common.preview') }}</th>
+        <th class="is-size-7">{{ $t('common.edit') }}</th>
+        <th class="is-size-7">{{ $t('common.status') }}</th>
+        <th class="is-size-7">{{ $t('common.edit') }}</th>
+        <th class="is-size-6">{{ $t('common.publishAt') }}</th>
+        <th class="is-size-6">{{ $t('common.lastUpdatedAt') }}</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th class="is-size-6">{{ $t('common.category') }}</th>
+        <th class="is-size-6">{{ $t('form.title') }}</th>
+        <th class="is-size-6">{{ $t('form.Slug') }}</th>
+        <th class="is-size-7">{{ $t('common.preview') }}</th>
+        <th class="is-size-7">{{ $t('common.edit') }}</th>
+        <th class="is-size-7">{{ $t('common.status') }}</th>
+        <th class="is-size-7">{{ $t('common.edit') }}</th>
+        <th class="is-size-6">{{ $t('common.publishAt') }}</th>
+        <th class="is-size-6">{{ $t('common.lastUpdatedAt') }}</th>
+      </tr>
+    </tfoot>
+    <tbody>
+      <admin-posts-table-row
+        v-for="post in posts"
+        :key="post.slug"
+        :serviceId="serviceId"
+        :post="post"
+      ></admin-posts-table-row>
+    </tbody>
+  </table>
   <nav v-if="hasNext" class="u-mt2r">
     <a class="u-clickable" @click="fetchPosts({ untilTime:lastItemPublishedAt })">{{ $t('common.more') }}</a>
   </nav>
@@ -38,8 +47,15 @@
 <script>
 import moment from '@/moment'
 import { Admin } from '@/api'
+import AdminPostsTableRow from '@/components/organisms/AdminPostsTableRow'
 
 export default{
+  name: 'AdminPostList',
+
+  components: {
+    AdminPostsTableRow,
+  },
+
   props: {
   },
 

@@ -1,8 +1,11 @@
 {
   "common": {
     "top": "Top",
+    "status": "Status",
     "createdAt": "Created",
     "updatedAt": "Updated",
+    "lastUpdatedAt": "Last Updated",
+    "publishAt": "Publish",
     "signUp": "Sign up",
     "signIn": "Sign in",
     "signOut": "Sign out",
@@ -36,6 +39,7 @@
     "disabled": "Disabled",
     "QuotedFrom": "Quoted from {name}",
     "QRCode": "QR code",
+    "preview": "Preview",
     "more": "More"
   },
   "msg": {

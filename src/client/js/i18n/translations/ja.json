@@ -1,8 +1,11 @@
 {
   "common": {
     "top": "トップ",
+    "status": "状態",
     "createdAt": "作成日時",
     "updatedAt": "変更日時",
+    "lastUpdatedAt": "最終変更日時",
+    "publishAt": "公開日時",
     "signUp": "ユーザ登録",
     "signIn": "ログイン",
     "signOut": "ログアウト",
@@ -36,6 +39,7 @@
     "disabled": "無効",
     "QuotedFrom": "{name} より引用",
     "QRCode": "QRコード",
+    "preview": "プレビュー",
     "more": "もっと見る"
   },
   "msg": {
