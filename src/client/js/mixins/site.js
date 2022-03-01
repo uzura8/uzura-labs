@@ -25,6 +25,10 @@ export default {
       return this.$store.getters.isAdminUser()
     },
 
+    adminUserToken() {
+      return this.$store.state.adminUser.token
+    },
+
     isAuth: function () {
       return false
     },

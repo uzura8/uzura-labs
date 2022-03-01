@@ -1,0 +1,38 @@
+<template>
+<div>
+  <div>
+    <h1 class="title">{{ $t('common.posts') }}</h1>
+    <p class="subtitle is-5">ServiceID: {{ serviceId }}</p>
+  </div>
+  <admin-post-list class="mt-6"></admin-post-list>
+</div>
+</template>
+<script>
+import AdminPostList from '@/components/organisms/AdminPostList'
+
+export default{
+  name: 'AdminPosts',
+
+  components: {
+    AdminPostList,
+  },
+
+  data() {
+    return {
+    }
+  },
+
+  computed: {
+    serviceId() {
+      return this.$route.params.serviceId
+    },
+  },
+
+  created() {
+  },
+
+  methods: {
+  },
+}
+</script>
+

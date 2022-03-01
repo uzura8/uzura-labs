@@ -3,5 +3,8 @@
   "port": null,
   "baseUrl": "/",
   "isSSL": false,
-  "siteName": "Sample Site"
+  "siteName": "Sample Site",
+  "serviceIds": ["hoge,fuga"],
+  "adminAuthHeader": "Authorization",
+  "adminAuthHeaderTokenPrefix": "Bearer"
 }
