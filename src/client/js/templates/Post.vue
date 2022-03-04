@@ -1,5 +1,12 @@
 <template>
 <div v-if="post">
+  <div class="block">
+    <router-link :to="`/admin/posts/${serviceId}`">
+      <i class="fas fa-chevron-left"></i>
+      <span>{{ $t('common.posts') }}</span>
+    </router-link>
+  </div>
+
   <h1 class="title">{{ post.title }}</h1>
   <div>
     {{ post.body }}

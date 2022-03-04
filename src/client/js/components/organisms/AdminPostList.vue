@@ -1,51 +1,52 @@
 <template>
 <div>
-  <table
-    v-if="posts"
-    class="table is-fullwidth"
-  >
-    <thead>
-      <tr>
-        <th class="is-size-6">{{ $t('common.category') }}</th>
-        <th class="is-size-6">{{ $t('form.title') }}</th>
-        <th class="is-size-6">{{ $t('form.Slug') }}</th>
-        <th class="is-size-7">{{ $t('common.preview') }}</th>
-        <th class="is-size-7">{{ $t('common.edit') }}</th>
-        <th class="is-size-7">{{ $t('common.status') }}</th>
-        <th class="is-size-7">{{ $t('common.edit') }}</th>
-        <th class="is-size-6">{{ $t('common.publishAt') }}</th>
-        <th class="is-size-6">{{ $t('common.lastUpdatedAt') }}</th>
-      </tr>
-    </thead>
-    <tfoot>
-      <tr>
-        <th class="is-size-6">{{ $t('common.category') }}</th>
-        <th class="is-size-6">{{ $t('form.title') }}</th>
-        <th class="is-size-6">{{ $t('form.Slug') }}</th>
-        <th class="is-size-7">{{ $t('common.preview') }}</th>
-        <th class="is-size-7">{{ $t('common.edit') }}</th>
-        <th class="is-size-7">{{ $t('common.status') }}</th>
-        <th class="is-size-7">{{ $t('common.edit') }}</th>
-        <th class="is-size-6">{{ $t('common.publishAt') }}</th>
-        <th class="is-size-6">{{ $t('common.lastUpdatedAt') }}</th>
-      </tr>
-    </tfoot>
-    <tbody>
-      <admin-posts-table-row
-        v-for="post in posts"
-        :key="post.slug"
-        :serviceId="serviceId"
-        :post="post"
-      ></admin-posts-table-row>
-    </tbody>
-  </table>
-  <nav v-if="hasNext" class="u-mt2r">
-    <a class="u-clickable" @click="fetchPosts({ untilTime:lastItemPublishedAt })">{{ $t('common.more') }}</a>
-  </nav>
+  <div v-if="posts.length > 0">
+    <table class="table is-fullwidth">
+      <thead>
+        <tr>
+          <th class="is-size-6">{{ $t('common.category') }}</th>
+          <th class="is-size-6">{{ $t('form.title') }}</th>
+          <th class="is-size-6">{{ $t('form.Slug') }}</th>
+          <th class="is-size-7">{{ $t('common.preview') }}</th>
+          <th class="is-size-7">{{ $t('common.edit') }}</th>
+          <th class="is-size-7">{{ $t('common.status') }}</th>
+          <th class="is-size-7">{{ $t('common.edit') }}</th>
+          <th class="is-size-6">{{ $t('common.publishAt') }}</th>
+          <th class="is-size-6">{{ $t('common.lastUpdatedAt') }}</th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <th class="is-size-6">{{ $t('common.category') }}</th>
+          <th class="is-size-6">{{ $t('form.title') }}</th>
+          <th class="is-size-6">{{ $t('form.Slug') }}</th>
+          <th class="is-size-7">{{ $t('common.preview') }}</th>
+          <th class="is-size-7">{{ $t('common.edit') }}</th>
+          <th class="is-size-7">{{ $t('common.status') }}</th>
+          <th class="is-size-7">{{ $t('common.edit') }}</th>
+          <th class="is-size-6">{{ $t('common.publishAt') }}</th>
+          <th class="is-size-6">{{ $t('common.lastUpdatedAt') }}</th>
+        </tr>
+      </tfoot>
+      <tbody>
+        <admin-posts-table-row
+          v-for="post in posts"
+          :key="post.slug"
+          :serviceId="serviceId"
+          :post="post"
+        ></admin-posts-table-row>
+      </tbody>
+    </table>
+    <nav v-if="hasNext" class="u-mt2r">
+      <a class="u-clickable" @click="fetchPosts({ untilTime:lastItemTime })">{{ $t('common.more') }}</a>
+    </nav>
+  </div>
+  <div v-else>
+    <p>{{ $t('msg["Data is empty"]') }}</p>
+  </div>
 </div>
 </template>
 <script>
-import moment from '@/moment'
 import { Admin } from '@/api'
 import AdminPostsTableRow from '@/components/organisms/AdminPostsTableRow'
 
@@ -76,9 +77,9 @@ export default{
       return this.$route.params.categorySlug
     },
 
-    lastItemPublishedAt () {
+    lastItemTime () {
       const lastIndex = this.posts.length - 1
-      return this.posts.length > 0 ? encodeURI(this.posts[lastIndex].publishAt) : null
+      return this.posts.length > 0 ? encodeURI(this.posts[lastIndex].createdAt) : null
     },
   },
 

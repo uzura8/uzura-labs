@@ -36,7 +36,6 @@
 </div>
 </template>
 <script>
-import moment from '@/moment'
 import { Post } from '@/api'
 
 export default{

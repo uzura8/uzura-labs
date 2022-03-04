@@ -19,6 +19,8 @@ import AdminTop from '@/templates/AdminTop'
 //import UserEdit from '@/templates/UserEdit'
 import AdminSignIn from '@/templates/AdminSignIn'
 import AdminPost from '@/templates/AdminPost'
+import AdminPostCreate from '@/templates/AdminPostCreate'
+import AdminPostEdit from '@/templates/AdminPostEdit'
 import AdminPosts from '@/templates/AdminPosts'
 
 export default [
@@ -107,6 +109,16 @@ export default [
     name: 'AdminPosts',
     component: AdminPosts,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/admin/posts/:serviceId/create',
+    name: 'AdminPostCreate',
+    component: AdminPostCreate,
+  },
+  {
+    path: '/admin/posts/:serviceId/:slug/edit',
+    name: 'AdminPostEdit',
+    component: AdminPostEdit,
   },
   {
     path: '/admin/posts/:serviceId/:slug',

@@ -19,9 +19,11 @@ export default {
     return params
   },
 
-  getReqOptions(params = {}, token = null) {
+  getReqOptions(params = null, token = null) {
     let options = {}
-    options.params = { ...params }
+    if (params) {
+      options.params = { ...params }
+    }
     if (token) {
       options.headers = {}
       const reqToken =  config.adminAuthHeaderTokenPrefix

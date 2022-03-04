@@ -1,33 +1,40 @@
 <template>
-  <tr>
+  <tr :class="rowBgColoerClass">
     <td>{{ post.category.label }}</td>
     <td>
       <router-link :to="`/admin/posts/${serviceId}/${post.slug}`">{{ post.title }}</router-link>
     </td>
     <td>{{ post.slug }}</td>
     <td>-</td>
-    <td>-</td>
-    <td>-</td>
-    <td>-</td>
     <td>
-      <time
-       itemprop="datepublished"
-        :datetime="post.publishAt | dateFormat('')"
-      >{{ post.publishAt | dateFormat }}</time>
+      <router-link
+        :to="`/admin/posts/${serviceId}/${post.slug}/edit`"
+        class="button is-small"
+      >
+        <span class="icon is-small">
+          <i class="fas fa-pen"></i>
+        </span>
+      </router-link>
     </td>
     <td>
-      <time
-       itemprop="dateupdatedat"
-        :datetime="post.updatedAt | dateFormat('')"
-      >{{ post.updatedAt | dateFormat }}</time>
+      <span v-if="publishStatus == 'published'" class="tag is-success">{{ $t('common.published') }}</span>
+      <span v-else-if="publishStatus == 'reserved'" class="tag is-warning">{{ $t('common.reserved') }}</span>
+      <span v-else class="tag is-danger">{{ $t('common.unpublished') }}</span>
     </td>
+    <td>-</td>
+    <td class="is-size-7"><inline-time :datetime="post.publishAt"></inline-time></td>
+    <td class="is-size-7"><inline-time :datetime="post.updatedAt"></inline-time></td>
   </tr>
 </template>
 <script>
-import moment from '@/moment'
+import InlineTime from '@/components/molecules/atoms/InlineTime'
 
 export default{
   name: 'AdminPostsTableRow',
+
+  components: {
+    InlineTime,
+  },
 
   props: {
     serviceId: {
@@ -47,6 +54,21 @@ export default{
   },
 
   computed: {
+    publishStatus() {
+      return this.getPostPublishStatus(this.post.postStatus, this.post.publishAt)
+    },
+
+    rowBgColoerClass() {
+      const publishStatus = this.getPostPublishStatus(this.post.postStatus, this.post.publishAt)
+      switch (publishStatus) {
+        case 'unpublished':
+          return 'has-background-danger-light'
+        case 'reserved':
+          return 'has-background-warning-light'
+        default :
+          return ''
+      }
+    }
   },
 
   watch: {

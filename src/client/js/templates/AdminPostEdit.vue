@@ -1,0 +1,56 @@
+<template>
+<div>
+  <h1 class="title">{{ $t('common.editOf', {label: $t('common.post')}) }}</h1>
+  <admin-post-form
+    v-if="post != null"
+    :service-id="serviceId"
+    :post="post"
+  ></admin-post-form>
+</div>
+</template>
+<script>
+import { Admin } from '@/api'
+import AdminPostForm from '@/components/organisms/AdminPostForm'
+
+export default{
+  name: 'AdminPost',
+
+  components: {
+    AdminPostForm,
+  },
+
+  data(){
+    return {
+      post: null,
+    }
+  },
+
+  computed: {
+    serviceId() {
+      return this.$route.params.serviceId
+    },
+
+    slug() {
+      return this.$route.params.slug
+    },
+  },
+
+  async created() {
+    await this.setPost()
+  },
+
+  methods: {
+    async setPost() {
+      this.$store.dispatch('setLoading', true)
+      try {
+        this.$store.dispatch('setLoading', false)
+        this.post = await Admin.getPosts(this.serviceId, this.slug, null, this.adminUserToken)
+      } catch (err) {
+        this.$store.dispatch('setLoading', false)
+        this.handleApiError(err, this.$t('msg["Failed to get data from server"]'))
+      }
+    },
+  },
+}
+</script>
+
