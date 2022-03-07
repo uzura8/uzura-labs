@@ -14,6 +14,30 @@
   </div>
 
   <h1 class="title">{{ post.title }}</h1>
+
+  <div class="is-pulled-right">
+    <eb-dropdown
+      position="is-bottom-left"
+    >
+      <span
+        slot="label"
+        class="icon"
+      >
+        <i class="fas fa-edit"></i>
+      </span>
+      <div class="dropdown-content">
+        <router-link
+          :to="`/admin/posts/${serviceId}/${post.slug}/edit`"
+          class="dropdown-item"
+        >
+          <span class="icon">
+            <i class="fas fa-pen"></i>
+          </span>
+          <span>{{ $t('common.edit') }}</span>
+        </router-link>
+      </div>
+    </eb-dropdown>
+  </div>
   <div>
     {{ post.body }}
   </div>
@@ -38,12 +62,14 @@
 import moment from '@/moment'
 import { Admin } from '@/api'
 import InlineTime from '@/components/molecules/atoms/InlineTime'
+import EbDropdown from '@/components/molecules/EbDropdown'
 
 export default{
   name: 'AdminPost',
 
   components: {
     InlineTime,
+    EbDropdown,
   },
 
   data(){
