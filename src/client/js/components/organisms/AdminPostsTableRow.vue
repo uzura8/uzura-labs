@@ -1,11 +1,14 @@
 <template>
   <tr :class="rowBgColoerClass">
-    <td>{{ post.category.label }}</td>
+    <td>
+      <span v-if="publishStatus == 'published'" class="tag is-success">{{ $t('common.published') }}</span>
+      <span v-else-if="publishStatus == 'reserved'" class="tag is-warning">{{ $t('common.reserved') }}</span>
+      <span v-else class="tag is-danger">{{ $t('common.unpublished') }}</span>
+    </td>
     <td>
       <router-link :to="`/admin/posts/${serviceId}/${post.slug}`">{{ post.title }}</router-link>
     </td>
-    <td>{{ post.slug }}</td>
-    <td>-</td>
+    <td>{{ post.category.label }}</td>
     <td>
       <router-link
         :to="`/admin/posts/${serviceId}/${post.slug}/edit`"
@@ -16,12 +19,6 @@
         </span>
       </router-link>
     </td>
-    <td>
-      <span v-if="publishStatus == 'published'" class="tag is-success">{{ $t('common.published') }}</span>
-      <span v-else-if="publishStatus == 'reserved'" class="tag is-warning">{{ $t('common.reserved') }}</span>
-      <span v-else class="tag is-danger">{{ $t('common.unpublished') }}</span>
-    </td>
-    <td>-</td>
     <td class="is-size-7"><inline-time :datetime="post.publishAt"></inline-time></td>
     <td class="is-size-7"><inline-time :datetime="post.updatedAt"></inline-time></td>
   </tr>

@@ -4,12 +4,9 @@
     <table class="table is-fullwidth">
       <thead>
         <tr>
-          <th class="is-size-6">{{ $t('common.category') }}</th>
-          <th class="is-size-6">{{ $t('form.title') }}</th>
-          <th class="is-size-6">{{ $t('form.Slug') }}</th>
-          <th class="is-size-7">{{ $t('common.preview') }}</th>
-          <th class="is-size-7">{{ $t('common.edit') }}</th>
           <th class="is-size-7">{{ $t('common.status') }}</th>
+          <th class="is-size-6">{{ $t('form.title') }}</th>
+          <th class="is-size-6">{{ $t('common.category') }}</th>
           <th class="is-size-7">{{ $t('common.edit') }}</th>
           <th class="is-size-6">{{ $t('common.publishAt') }}</th>
           <th class="is-size-6">{{ $t('common.lastUpdatedAt') }}</th>
@@ -17,12 +14,9 @@
       </thead>
       <tfoot>
         <tr>
-          <th class="is-size-6">{{ $t('common.category') }}</th>
-          <th class="is-size-6">{{ $t('form.title') }}</th>
-          <th class="is-size-6">{{ $t('form.Slug') }}</th>
-          <th class="is-size-7">{{ $t('common.preview') }}</th>
-          <th class="is-size-7">{{ $t('common.edit') }}</th>
           <th class="is-size-7">{{ $t('common.status') }}</th>
+          <th class="is-size-6">{{ $t('form.title') }}</th>
+          <th class="is-size-6">{{ $t('common.category') }}</th>
           <th class="is-size-7">{{ $t('common.edit') }}</th>
           <th class="is-size-6">{{ $t('common.publishAt') }}</th>
           <th class="is-size-6">{{ $t('common.lastUpdatedAt') }}</th>
