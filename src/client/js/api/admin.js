@@ -62,5 +62,15 @@ export default {
         .catch(err => reject(err))
     })
   },
+
+  deletePost: (serviceId, slug, token = null) => {
+    return new Promise((resolve, reject) => {
+      const options = utilUri.getReqOptions(null, token)
+      const uri = `admin/posts/${serviceId}/${slug}`
+      client.delete(uri, options)
+        .then(res => resolve(res.data))
+        .catch(err => reject(err))
+    })
+  },
 }
 

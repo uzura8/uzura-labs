@@ -119,6 +119,7 @@
     "notAcceptedTypeOnUpload": "File other than {types} is disabled to uploaded",
     "thisIsNotPublished": "This {name} is not published yet",
     "cofirmToPublish": "Are you sure you want to publish?",
+    "changePublishStatusCompleted": "Changed publish status",
     "cofirmToDelete": "Are you sure you want to delete?",
     "signInGreeting": "Hi, {name} !"
   },

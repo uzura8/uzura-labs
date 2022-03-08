@@ -65,6 +65,16 @@
           <span>{{ $t('common.publish') }}</span>
         </a>
 
+        <a
+          @click="confirmDelete()"
+          class="dropdown-item is-clickable"
+        >
+          <span class="icon">
+            <i class="fas fa-trash"></i>
+          </span>
+          <span>{{ $t('common.delete') }}</span>
+        </a>
+
       </div>
     </eb-dropdown>
   </div>
@@ -139,15 +149,15 @@ export default{
       this.post = await Admin.getPosts(this.serviceId, this.slug, null, this.adminUserToken)
     },
 
+    async getPost() {
+      this.post = await Admin.getPosts(this.serviceId, this.slug, null, this.adminUserToken)
+    },
+
     confirmPublish() {
       this.$buefy.dialog.confirm({
         message: this.$t('msg.cofirmToPublish'),
         onConfirm: async () => await this.updateStatus(true)
       })
-    },
-
-    async getPost() {
-      this.post = await Admin.getPosts(this.serviceId, this.slug, null, this.adminUserToken)
     },
 
     async updateStatus(isPublish = false) {
@@ -158,6 +168,7 @@ export default{
         this.$store.dispatch('setLoading', false)
         this.post = res
         this.$emit('posted', res)
+        this.showGlobalMessage(this.$t('msg.changePublishStatusCompleted'), 'is-success')
       } catch (err) {
         console.log(err);//!!!!!!
         this.$store.dispatch('setLoading', false)
@@ -165,6 +176,29 @@ export default{
           this.setErrors(err.response.data.errors)
         }
         this.handleApiError(err, this.$t(`msg["Edit failed"]`))
+      }
+    },
+
+    confirmDelete() {
+      this.$buefy.dialog.confirm({
+        message: this.$t('msg.cofirmToDelete'),
+        onConfirm: async () => await this.deletePost()
+      })
+    },
+
+    async deletePost() {
+      try {
+        this.$store.dispatch('setLoading', true)
+        const res = await Admin.deletePost(this.serviceId, this.slug, this.adminUserToken)
+        this.$store.dispatch('setLoading', false)
+        this.$router.push(`/admin/posts/${this.serviceId}`)
+      } catch (err) {
+        console.log(err);//!!!!!!
+        this.$store.dispatch('setLoading', false)
+        if (this.checkResponseHasErrorMessage(err, true)) {
+          this.setErrors(err.response.data.errors)
+        }
+        this.handleApiError(err, this.$t(`msg["Delete failed"]`))
       }
     },
   },
