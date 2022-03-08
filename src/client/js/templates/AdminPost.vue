@@ -2,7 +2,7 @@
 <div v-if="post">
 
   <b-message
-    v-if="post && !checkPostPublished(post.postStatus, post.publishAt)"
+    v-if="isPublished === false"
     type="is-warning"
   >{{ $t('msg.thisIsNotPublished', {name: $t('common.post')}) }}</b-message>
 
@@ -13,7 +13,14 @@
     </router-link>
   </div>
 
-  <h1 class="title">{{ post.title }}</h1>
+  <h1 class="title">
+    <span
+      v-if="isPublishItem === false"
+      class="tag is-dark"
+    >{{ $t('common.unpublished') }}</span>
+
+    {{ post.title }}
+  </h1>
 
   <div class="is-pulled-right">
     <eb-dropdown
@@ -35,13 +42,38 @@
           </span>
           <span>{{ $t('common.edit') }}</span>
         </router-link>
+
+        <a
+          v-if="isPublishItem"
+          @click="updateStatus(false)"
+          class="dropdown-item is-clickable"
+        >
+          <span class="icon">
+            <i class="fas fa-lock"></i>
+          </span>
+          <span>{{ $t('common.unpublish') }}</span>
+        </a>
+
+        <a
+          v-else
+          @click="confirmPublish()"
+          class="dropdown-item is-clickable"
+        >
+          <span class="icon">
+            <i class="fas fa-globe"></i>
+          </span>
+          <span>{{ $t('common.publish') }}</span>
+        </a>
+
       </div>
     </eb-dropdown>
   </div>
+
   <div>
     {{ post.body }}
   </div>
-  <ul>
+
+  <ul class="mt-5">
     <li>
       <label>{{ $t('common.category') }}</label>
       <span>{{ post.category.label }}</span>
@@ -86,17 +118,54 @@ export default{
     slug() {
       return this.$route.params.slug
     },
+
+    isPublished() {
+      if (!this.post) return false
+      return this.checkPostPublished(this.post.postStatus, this.post.publishAt)
+    },
+
+    isPublishItem() {
+      if (!this.post) return false
+      return this.post.postStatus === 'publish'
+    },
   },
 
   async created() {
-    const hoge = moment.utc().format()
-    const fuga = moment.utc().add(3, 'seconds').format()
     await this.getPost()
   },
 
   methods: {
     async getPost() {
       this.post = await Admin.getPosts(this.serviceId, this.slug, null, this.adminUserToken)
+    },
+
+    confirmPublish() {
+      this.$buefy.dialog.confirm({
+        message: this.$t('msg.cofirmToPublish'),
+        onConfirm: async () => await this.updateStatus(true)
+      })
+    },
+
+    async getPost() {
+      this.post = await Admin.getPosts(this.serviceId, this.slug, null, this.adminUserToken)
+    },
+
+    async updateStatus(isPublish = false) {
+      try {
+        this.$store.dispatch('setLoading', true)
+        const postStatus = isPublish ? 'publish' : 'unpublish'
+        const res = await Admin.updatePostStatus(this.serviceId, this.slug, postStatus, this.adminUserToken)
+        this.$store.dispatch('setLoading', false)
+        this.post = res
+        this.$emit('posted', res)
+      } catch (err) {
+        console.log(err);//!!!!!!
+        this.$store.dispatch('setLoading', false)
+        if (this.checkResponseHasErrorMessage(err, true)) {
+          this.setErrors(err.response.data.errors)
+        }
+        this.handleApiError(err, this.$t(`msg["Edit failed"]`))
+      }
     },
   },
 }

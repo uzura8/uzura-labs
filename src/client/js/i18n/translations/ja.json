@@ -32,6 +32,7 @@
     "cancel": "キャンセル",
     "publish": "公開する",
     "published": "公開済",
+    "unpublish": "非公開にする",
     "unpublished": "非公開",
     "reserved": "公開予約",
     "download": "ダウンロード",
@@ -118,6 +119,8 @@
     "overMaxSizeOnUpload": "{max} を超えるファイルはアップロードできません",
     "notAcceptedTypeOnUpload": "{types} 以外のファイルはアップロードできません",
     "thisIsNotPublished": "この{name}はまだ公開されていません",
+    "cofirmToPublish": "本当に公開しますか？",
+    "cofirmToDelete": "本当に削除しますか？",
     "signInGreeting": "こんにちは、{name} さん！"
   },
   "error": {

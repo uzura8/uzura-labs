@@ -51,5 +51,16 @@ export default {
         .catch(err => reject(err))
     })
   },
+
+  updatePostStatus: (serviceId, slug, postStatus, token = null) => {
+    return new Promise((resolve, reject) => {
+      const vals = { 'status': postStatus }
+      const options = utilUri.getReqOptions(null, token)
+      const uri = `admin/posts/${serviceId}/${slug}/status`
+      client.post(uri, vals, options)
+        .then(res => resolve(res.data))
+        .catch(err => reject(err))
+    })
+  },
 }
 
