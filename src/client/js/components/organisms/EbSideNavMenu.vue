@@ -37,10 +37,6 @@ export default {
   },
 
   computed: {
-    serviceId() {
-      return this.$route.params.serviceId
-    },
-
     currenCategorySlug() {
       return this.$route.params.categorySlug
     },

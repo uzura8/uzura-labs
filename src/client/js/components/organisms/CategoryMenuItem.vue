@@ -53,9 +53,6 @@ export default {
   },
 
   computed: {
-    serviceId() {
-      return this.$route.params.serviceId
-    },
   },
 
   watch: {

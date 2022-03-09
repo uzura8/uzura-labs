@@ -33,6 +33,10 @@ export default {
     isAuth: function () {
       return false
     },
+
+    serviceId() {
+      return this.$route.params.serviceId
+    },
   },
 
   methods: {
