@@ -23,7 +23,7 @@
             <time
              itemprop="datepublished"
               :datetime="post.publishAt | dateFormat('')"
-            >{{ post.publisheeAt | dateFormat }}</time>
+            >{{ post.publishAt | dateFormat }}</time>
           </div>
         </div>
       </div>
