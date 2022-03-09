@@ -4,6 +4,7 @@
     v-if="datetime"
     itemprop="time"
     :datetime="datetime | dateFormat(format)"
+    :class="timeClass"
   >{{ datetime | dateFormat }}</time>
   <span v-else>-</span>
 </span>
@@ -19,6 +20,11 @@ export default{
     },
 
     format: {
+      type: String,
+      default: '',
+    },
+
+    timeClass: {
       type: String,
       default: '',
     },

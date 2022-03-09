@@ -59,6 +59,42 @@
     ></b-input>
   </b-field>
 
+  <b-field
+    :label="$t('common.publishAt')"
+    :type="checkEmpty(errors.publishAt) ? '' : 'is-danger'"
+    :message="checkEmpty(errors.publishAt) ? '' : errors.publishAt[0]"
+  >
+    <b-datetimepicker
+      v-model="publishAt"
+      @blur="validate('publishAt')"
+      locale="ja-JP"
+      icon-pack="fas"
+      icon="calendar-day"
+      editable
+    >
+      <template #left>
+        <b-button
+          label="Now"
+          type="is-primary"
+          icon-left="clock"
+          icon-pack="fas"
+          @click="publishAt = new Date()"
+        ></b-button>
+      </template>
+
+      <template #right>
+        <b-button
+          label="Clear"
+          type="is-danger"
+          icon-left="times"
+          icon-pack="fas"
+          outlined
+          @click="publishAt = null"
+        ></b-button>
+      </template>
+    </b-datetimepicker>
+  </b-field>
+
   <div
     v-if="globalError"
     class="block has-text-danger"
@@ -117,6 +153,7 @@
 </div>
 </template>
 <script>
+import moment from 'moment'
 import str from '@/util/str'
 import { Admin, Category } from '@/api'
 
@@ -144,8 +181,9 @@ export default{
       category: '',
       title: '',
       body: '',
-      fieldKeys: ['slug', 'category', 'title', 'body'],
+      publishAt: null,
       categories: [],
+      fieldKeys: ['slug', 'category', 'title', 'body', 'publishAt'],
     }
   },
 
@@ -191,6 +229,7 @@ export default{
       if (!this.checkEmpty(this.category)) return false
       if (!this.checkEmpty(this.title)) return false
       if (!this.checkEmpty(this.body)) return false
+      if (!this.checkEmpty(this.publishAt)) return false
       return true
     },
 
@@ -218,6 +257,7 @@ export default{
       this.category = this.post.category.slug != null ? String(this.post.category.slug) : ''
       this.title = this.post.title != null ? String(this.post.title) : ''
       this.body = this.post.body != null ? String(this.post.body) : ''
+      this.publishAt = this.post.publishAt != null ? moment(this.post.publishAt).toDate() : null
     },
 
     async setCategories() {
@@ -232,6 +272,7 @@ export default{
       this.category = ''
       this.title = ''
       this.body = ''
+      this.publishAt = null
     },
 
     async save(forcePublish = false) {
@@ -245,6 +286,10 @@ export default{
         vals.category = this.category
         vals.title = this.title
         vals.body = this.body
+        if (this.publishAt) {
+          const publishAtStr = moment.utc(this.publishAt).format('YYYY-MM-DDTHH:mm:ssZ')
+          vals.publishAt = publishAtStr
+        }
         if (forcePublish) {
           vals.status = 'publish'
         } else {
@@ -346,6 +391,10 @@ export default{
       if (this.body === null) this.body = ''
       this.body = this.body.trimEnd()
       if (this.checkEmpty(this.body)) this.errors.body.push(this.$t('msg["Input required"]'))
+    },
+
+    validatePublishAt() {
+      this.initError('publishAt')
     },
   },
 }

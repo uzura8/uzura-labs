@@ -90,7 +90,11 @@
     </li>
     <li>
       <label>{{ $t('common.publishAt') }}</label>
-      <inline-time :datetime="post.publishAt"></inline-time>
+      <inline-time
+        :time-class="{'has-text-warning-dark': isReserved}"
+        :datetime="post.publishAt"
+      ></inline-time>
+      <span v-if="isReserved" class="tag is-warning">{{ $t('common.reserved') }}</span>
     </li>
     <li>
       <label>{{ $t('common.lastUpdatedAt') }}</label>
@@ -137,6 +141,10 @@ export default{
     isPublishItem() {
       if (!this.post) return false
       return this.post.postStatus === 'publish'
+    },
+
+    isReserved() {
+      return this.getPostPublishStatus(this.post.postStatus, this.post.publishAt) === 'reserved'
     },
   },
 
