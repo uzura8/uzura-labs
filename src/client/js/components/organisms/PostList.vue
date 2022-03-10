@@ -1,6 +1,6 @@
 <template>
 <div>
-  <ul v-if="posts">
+  <ul v-if="posts.length > 0">
     <li
       v-for="post in posts"
       class="block"
@@ -29,6 +29,10 @@
       </div>
     </li>
   </ul>
+
+  <div v-else>
+    <p>{{ $t('msg["Data is empty"]') }}</p>
+  </div>
 
   <nav v-if="hasNext" class="u-mt2r">
     <a class="u-clickable" @click="fetchPosts({ untilTime:lastItemPublishedAt })">{{ $t('common.more') }}</a>
