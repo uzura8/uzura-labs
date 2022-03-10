@@ -26,7 +26,6 @@
         <admin-posts-table-row
           v-for="post in posts"
           :key="post.slug"
-          :serviceId="serviceId"
           :post="post"
         ></admin-posts-table-row>
       </tbody>

@@ -91,7 +91,7 @@
     <li>
       <label>{{ $t('common.publishAt') }}</label>
       <inline-time
-        :time-class="{'has-text-warning-dark': isReserved}"
+        :time-class="isReserved ? 'has-text-warning-dark' : ''"
         :datetime="post.publishAt"
       ></inline-time>
       <span v-if="isReserved" class="tag is-warning">{{ $t('common.reserved') }}</span>

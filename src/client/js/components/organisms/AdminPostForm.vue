@@ -164,11 +164,6 @@ export default{
   },
 
   props: {
-    serviceId: {
-      type: String,
-      default: '',
-    },
-
     post: {
       type: Object,
       default: null,

@@ -3,7 +3,6 @@
   <h1 class="title">{{ $t('common.editOf', {label: $t('common.post')}) }}</h1>
   <admin-post-form
     v-if="post != null"
-    :service-id="serviceId"
     :post="post"
   ></admin-post-form>
 </div>
