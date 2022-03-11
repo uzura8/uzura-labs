@@ -30,8 +30,45 @@
         ></admin-posts-table-row>
       </tbody>
     </table>
-    <nav v-if="hasNext" class="u-mt2r">
-      <a class="u-clickable" @click="fetchPosts({ untilTime:lastItemTime })">{{ $t('common.more') }}</a>
+
+    <nav class="pagination" role="navigation" aria-label="pagination">
+      <router-link
+        :to="`/admin/posts/${serviceId}?index=` + String(index - 1)"
+        class="pagination-previous"
+        :class="{'is-disabled': !existsPrev}"
+      >
+        <span class="icon">
+          <i class="fas fa-angle-left"></i>
+        </span>
+        <span>{{ $t('common.toPrev') }}</span>
+      </router-link>
+
+      <router-link
+        :to="`/admin/posts/${serviceId}?index=` + String(index + 1)"
+        class="pagination-next"
+        :class="{'is-disabled': !existsNext}"
+      >
+        <span class="icon">
+          <i class="fas fa-angle-right"></i>
+        </span>
+        <span>{{ $t('common.toNext') }}</span>
+      </router-link>
+
+      <ul class="pagination-list">
+        <li>
+          <router-link
+            :to="`/admin/posts/${serviceId}`"
+            class="pagination-link"
+            :class="{'is-disabled': !existsPrev}"
+          >
+            <span class="icon">
+              <i class="fas fa-angle-double-left"></i>
+            </span>
+            <span>{{ $t('common.toFirst') }}</span>
+          </router-link>
+        </li>
+      </ul>
+
     </nav>
   </div>
   <div v-else>
@@ -56,64 +93,70 @@ export default{
   data(){
     return {
       posts: [],
-      hasNext: false,
-      listCount: 3,
     }
   },
 
   computed: {
-    categorySlug() {
-      return this.$route.params.categorySlug
+    index() {
+      return this.$route.query.index ? Number(this.$route.query.index) : 0
     },
 
-    lastItemTime () {
-      const lastIndex = this.posts.length - 1
-      return this.posts.length > 0 ? encodeURI(this.posts[lastIndex].createdAt) : null
+    currentPagerKey() {
+      const current = this.$store.state.adminPostsPager.keys.find(item => item.index === this.index)
+      return current ? current.key : null
+    },
+
+    existsNext() {
+      const nextPage = this.index + 1
+      return Boolean(this.$store.state.adminPostsPager.keys.find(item => item.index === nextPage))
+    },
+
+    existsPrev() {
+      const prevPage = this.index - 1
+      return prevPage >= 0
     },
   },
 
   watch: {
-    categorySlug() {
+     index(val) {
+      this.checkPageIndex()
       this.posts = []
       this.fetchPosts()
     },
   },
 
   async created() {
+    this.checkPageIndex()
     await this.fetchPosts()
   },
 
   methods: {
-    async fetchPosts(params = {}, isLatest = false) {
-      const params_copied = { ...params }
-      params_copied.count = this.listCount + 1
-      if (this.categorySlug) {
-        params_copied.category = this.categorySlug
+    checkPageIndex() {
+      if (this.index > this.$store.getters.adminPostsPagerIndexCount()) {
+        this.$store.dispatch('resetAdminPostsPager', true)
+        this.$router.push(`/admin/posts/${this.serviceId}`)
       }
+    },
+
+    async fetchPosts() {
       this.$store.dispatch('setLoading', true)
       try {
-        let items = await Admin.getPosts(this.serviceId, null, params_copied, this.adminUserToken)
-        if (isLatest) {
-          items.reverse()
-        } else {
-          if (items.length > this.listCount) {
-            items.pop()
-            this.hasNext = true
-          } else {
-            this.hasNext = false
-          }
+        let params = {}
+        if (this.currentPagerKey) {
+          params.lastKey = JSON.stringify(this.currentPagerKey)
         }
-        items.map(item => {
-          if (isLatest) {
-            this.posts.unshift(item)
-          } else {
-            this.posts.push(item)
-          }
-        })
+        const res = await Admin.getPosts(this.serviceId, null, params, this.adminUserToken)
+        this.posts = res.items
+        this.$store.dispatch('setAdminPostsPagerLastIndex', this.index)
+        if (res.lastKey) {
+          const item = {index: this.index + 1, key: res.lastKey}
+          this.$store.dispatch('pushItemToAdminPostsPagerKeys', item)
+        }
         this.$store.dispatch('setLoading', false)
       } catch (err) {
+        console.log(err)
+        this.handleApiError(err, 'Failed to get data from server')
         this.$store.dispatch('setLoading', false)
-        this.handleApiError(err, this.$t('msg["Failed to get data from server"]'))
       }
     },
   },

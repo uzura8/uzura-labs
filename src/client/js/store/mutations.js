@@ -10,6 +10,21 @@ export default {
     state.adminUser = payload
   },
 
+  [types.PUSH_ITEM_TO_ADMIN_POSTS_PAGER_KEYS] (state, payload) {
+    const index = payload.index
+    if (state.adminPostsPager.keys.find(item => item.index === index)) return
+    state.adminPostsPager.keys.push(payload)
+  },
+
+  [types.RESET_ADMIN_POSTS_PAGER] (state, isResetKeys) {
+    if (isResetKeys) state.adminPostsPager.keys = []
+    state.adminPostsPager.lastIndex = 0
+  },
+
+  [types.SET_ADMIN_POSTS_PAGER_LAST_INDEX] (state, payload) {
+    state.adminPostsPager.lastIndex = payload
+  },
+
   //[types.AUTH_SET_USER] (state, payload) {
   //  state.auth.user = payload
   //},

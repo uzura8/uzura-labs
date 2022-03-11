@@ -1,6 +1,9 @@
 {
   "common": {
     "top": "Top",
+    "next": "Next",
+    "prev": "Previous",
+    "toFirst": "To First",
     "status": "Status",
     "createdAt": "Created",
     "updatedAt": "Updated",

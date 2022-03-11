@@ -7,7 +7,7 @@
   >{{ $t('msg.thisIsNotPublished', {name: $t('common.post')}) }}</b-message>
 
   <div class="block">
-    <router-link :to="`/admin/posts/${serviceId}`">
+    <router-link :to="postsPageUri">
       <i class="fas fa-chevron-left"></i>
       <span>{{ $t('common.posts') }}</span>
     </router-link>
@@ -141,6 +141,12 @@ export default{
 
     isReserved() {
       return this.getPostPublishStatus(this.post.postStatus, this.post.publishAt) === 'reserved'
+    },
+
+    postsPageUri() {
+      const uri = `/admin/posts/${this.serviceId}`
+      if (!this.$store.state.adminPostsPager.lastIndex) return uri
+      return `${uri}?index=${this.$store.state.adminPostsPager.lastIndex}`
     },
   },
 

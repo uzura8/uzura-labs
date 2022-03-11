@@ -12,6 +12,10 @@ export default {
     return Boolean(state.adminUser)
   },
 
+  adminPostsPagerIndexCount: state => () => {
+    return state.adminPostsPager.keys.length
+  },
+
   //userInfo: state => (key) => {
   //  const acceptKey = [
   //    'uid', 'name', 'email', 'photoURL'

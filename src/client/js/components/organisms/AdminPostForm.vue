@@ -296,6 +296,7 @@ export default{
           res = await Admin.editPost(this.serviceId, this.post.slug, vals, this.adminUserToken)
         } else {
           res = await Admin.createPost(this.serviceId, vals, this.adminUserToken)
+          this.$store.dispatch('resetAdminPostsPager', false)
         }
         this.$store.dispatch('setLoading', false)
         this.$emit('posted', post)
