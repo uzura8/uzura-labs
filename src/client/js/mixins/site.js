@@ -1,3 +1,4 @@
+import moment from '@/moment'
 import store from '@/store'
 import router from '@/router'
 import listener from '@/listener'
@@ -21,12 +22,20 @@ export default {
       return this.$route.path.startsWith('/admin')
     },
 
+    isAdminUser() {
+      return this.$store.getters.isAdminUser()
+    },
+
+    adminUserToken() {
+      return this.$store.state.adminUser.token
+    },
+
     isAuth: function () {
       return false
     },
 
-    isAdmin: function () {
-      return false
+    serviceId() {
+      return this.$route.params.serviceId
     },
   },
 
@@ -135,6 +144,22 @@ export default {
       Object.keys(this.errors).map(field => {
         this.initError(field)
       })
+    },
+
+    checkPostPublished(postStatus, publishAt = '') {
+      if (postStatus === 'unpublish') return false
+      if (!publishAt) return true
+
+      const current = moment.utc().add(3, 'seconds').format()
+      return publishAt < current
+    },
+
+    getPostPublishStatus(postStatus, publishAt = '') {
+      if (postStatus === 'unpublish') return 'unpublished'
+      if (!publishAt) return 'published'
+
+      const current = moment.utc().add(3, 'seconds').format()
+      return publishAt < current ? 'published' : 'reserved'
     },
   },
 }

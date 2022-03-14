@@ -65,8 +65,8 @@ export default {
 
   checkResponseHasErrorMessage: (err, isFieldsErrors = false) => {
     if (err == null) return false
-    if (err.response == null) return false
-    if (err.response.data == null) return false
+    if ('response' in err === false || err.response == null) return false
+    if ('data' in err.response === false || err.response.data == null) return false
     if (isFieldsErrors) {
       return err.response.data.errors != null
     }

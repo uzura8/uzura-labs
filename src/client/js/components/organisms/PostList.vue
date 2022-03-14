@@ -1,6 +1,6 @@
 <template>
 <div>
-  <ul v-if="posts">
+  <ul v-if="posts.length > 0">
     <li
       v-for="post in posts"
       class="block"
@@ -23,12 +23,16 @@
             <time
              itemprop="datepublished"
               :datetime="post.publishAt | dateFormat('')"
-            >{{ post.publisheeAt | dateFormat }}</time>
+            >{{ post.publishAt | dateFormat }}</time>
           </div>
         </div>
       </div>
     </li>
   </ul>
+
+  <div v-else>
+    <p>{{ $t('msg["Data is empty"]') }}</p>
+  </div>
 
   <nav v-if="hasNext" class="u-mt2r">
     <a class="u-clickable" @click="fetchPosts({ untilTime:lastItemPublishedAt })">{{ $t('common.more') }}</a>
@@ -36,7 +40,6 @@
 </div>
 </template>
 <script>
-import moment from '@/moment'
 import { Post } from '@/api'
 
 export default{
@@ -52,10 +55,6 @@ export default{
   },
 
   computed: {
-    serviceId() {
-      return this.$route.params.serviceId
-    },
-
     categorySlug() {
       return this.$route.params.categorySlug
     },

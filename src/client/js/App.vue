@@ -8,7 +8,10 @@
         <b-loading :active="isLoading" :is-full-page="true" :canCancel="true"></b-loading>
         <router-view></router-view>
       </main>
-      <div class="column is-3-desktop is-2-widescreen">
+      <div
+        v-if="!isAdminPath"
+        class="column is-3-desktop is-2-widescreen"
+      >
         <eb-side-nav-menu></eb-side-nav-menu>
       </div>
     </div>

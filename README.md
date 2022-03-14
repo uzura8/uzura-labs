@@ -31,9 +31,11 @@ You need below
 ### Upload config file for frontend app
 
 #### Edit config file
+#### Basic config
 
 ```bash
 cd (project_root_dir)
+cp src/client/js/config/config.json.sample src/client/js/config/config.json
 vi src/client/js/config/config.json
 ```
 
@@ -44,6 +46,22 @@ vi src/client/js/config/config.json
   "baseUrl": "/",
   "isSSL": true,
   "siteName": "Sample Site"
+}
+```
+
+#### AWS Cognito config (If use admin functions)
+
+```bash
+cp src/client/js/config/cognito-client-config.json.sample src/client/js/config/cognito-client-config.json
+vi src/client/js/config/cognito-client-config.json
+```
+
+```json
+{
+  "Region": "ap-northeast-1",
+  "UserPoolId": "ap-northeast-1_xxxxxxxxx",
+  "ClientId": "xxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "IdentityPoolId": "ap-northeast-1:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 }
 ```
 

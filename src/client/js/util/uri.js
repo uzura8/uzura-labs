@@ -1,3 +1,4 @@
+import config from '@/config/config'
 import common from './common'
 
 export default {
@@ -16,6 +17,21 @@ export default {
       params.append(key, values[key]);
     }
     return params
+  },
+
+  getReqOptions(params = null, token = null) {
+    let options = {}
+    if (params) {
+      options.params = { ...params }
+    }
+    if (token) {
+      options.headers = {}
+      const reqToken =  config.adminAuthHeaderTokenPrefix
+        ? `${config.adminAuthHeaderTokenPrefix} ${token}`
+        : token
+      options.headers[config.adminAuthHeader] = reqToken
+    }
+    return options
   },
 
   getParameterByName: (name) => {

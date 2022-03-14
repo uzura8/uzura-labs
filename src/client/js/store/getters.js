@@ -8,10 +8,12 @@ export default {
   //  return state.auth.user.type == type
   //},
 
-  isAdmin: state => () => {
-    if (!state.auth.state) return false
-    if (state.auth.user == null) return false
-    return state.auth.user.isAdmin
+  isAdminUser: state => () => {
+    return Boolean(state.adminUser)
+  },
+
+  adminPostsPagerIndexCount: state => () => {
+    return state.adminPostsPager.keys.length
   },
 
   //userInfo: state => (key) => {

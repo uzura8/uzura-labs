@@ -23,7 +23,7 @@
       <router-link v-if="isAuth" to="/settings" class="navbar-item">{{ $t('page.Settings') }}</router-link>
       <a v-if="isAuth" class="navbar-item u-clickable" @click="signOut">{{ $t('common.signOut') }}</a>
       <router-link to="/about" class="navbar-item">{{ $t('page.about') }}</router-link>
-      <router-link v-if="isAdmin" to="/admin" class="navbar-item">{{ $t('page.adminTop') }}</router-link>
+      <router-link v-if="isAdminUser" to="/admin" class="navbar-item">{{ $t('page.adminTop') }}</router-link>
       <router-link to="/" class="navbar-item"></router-link>
     </div>
   </div>

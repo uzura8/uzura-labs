@@ -17,6 +17,11 @@ const state = {
     user: null,
     token: null,
   },
+  adminUser: null,
+  adminPostsPager: {
+    keys: [],
+    lastIndex: 0,
+  }
 }
 
 export default new Vuex.Store({

@@ -1,7 +1,7 @@
 <template>
 <div>
   <aside
-    v-if="serviceId && categories.length > 0"
+    v-if="serviceId"
     class="menu"
   >
     <p class="menu-label">{{ $t('common.categories') }}</p>
@@ -37,17 +37,18 @@ export default {
   },
 
   computed: {
-    serviceId() {
-      return this.$route.params.serviceId
-    },
-
     currenCategorySlug() {
       return this.$route.params.categorySlug
     },
   },
 
-  async created() {
-    await this.fetchCategories()
+  watch: {
+    async serviceId(val, oldVal) {
+      await this.fetchCategories()
+    },
+  },
+
+  created() {
   },
 
   methods: {

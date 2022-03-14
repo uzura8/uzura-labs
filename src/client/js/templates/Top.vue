@@ -3,21 +3,19 @@
     <h1 class="title">{{ $t('page.top') }}</h1>
     <div>
       <h2 class="title">Posts</h2>
-      <ul>
-        <li
-          v-for="serviceId in serviceIds"
-        >
-          <router-link :to="`/posts/${serviceId}`">{{serviceId}}</router-link>
-        </li>
-      </ul>
+      <service-ids></service-ids>
     </div>
   </div>
 </template>
 <script>
-import config from '@/config/config'
+import ServiceIds from '@/components/organisms/ServiceIds'
 
 export default{
   name: 'Top',
+
+  components: {
+    ServiceIds,
+  },
 
   data(){
     return {
@@ -25,9 +23,6 @@ export default{
   },
 
   computed: {
-    serviceIds() {
-      return config.serviceIds
-    },
   },
 
   created() {
