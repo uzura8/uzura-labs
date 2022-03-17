@@ -116,12 +116,12 @@ export default [
     component: AdminPostCreate,
   },
   {
-    path: '/admin/posts/:serviceId/:slug/edit',
+    path: '/admin/posts/:serviceId/:postId/edit',
     name: 'AdminPostEdit',
     component: AdminPostEdit,
   },
   {
-    path: '/admin/posts/:serviceId/:slug',
+    path: '/admin/posts/:serviceId/:postId',
     name: 'AdminPost',
     component: AdminPost,
   },

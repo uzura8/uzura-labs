@@ -252,7 +252,7 @@ export default{
       this.category = this.post.category.slug != null ? String(this.post.category.slug) : ''
       this.title = this.post.title != null ? String(this.post.title) : ''
       this.body = this.post.body != null ? String(this.post.body) : ''
-      this.publishAt = this.post.publishAt != null ? moment(this.post.publishAt).toDate() : null
+      this.publishAt = this.post.publishAt ? moment(this.post.publishAt).toDate() : null
     },
 
     async setCategories() {
@@ -275,7 +275,6 @@ export default{
       if (this.hasErrors) return
 
       try {
-        let post
         let vals = {}
         vals.slug = this.slug
         vals.category = this.category
@@ -293,16 +292,17 @@ export default{
         this.$store.dispatch('setLoading', true)
         let res
         if (this.isEdit) {
-          res = await Admin.editPost(this.serviceId, this.post.slug, vals, this.adminUserToken)
+          res = await Admin.editPost(this.serviceId, this.post.postId, vals, this.adminUserToken)
         } else {
           res = await Admin.createPost(this.serviceId, vals, this.adminUserToken)
           this.$store.dispatch('resetAdminPostsPager', false)
         }
         this.$store.dispatch('setLoading', false)
-        this.$emit('posted', post)
+        this.$emit('posted', res)
         this.resetInputs()
-        this.$router.push(`/admin/posts/${this.serviceId}/${vals.slug}`)
+        this.$router.push(`/admin/posts/${this.serviceId}/${res.postId}`)
       } catch (err) {
+        console.log(err);//!!!!!!
         this.$store.dispatch('setLoading', false)
         if (this.checkResponseHasErrorMessage(err, true)) {
           this.setErrors(err.response.data.errors)

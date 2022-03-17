@@ -6,12 +6,12 @@
       <span v-else class="tag is-danger">{{ $t('common.unpublished') }}</span>
     </td>
     <td>
-      <router-link :to="`/admin/posts/${serviceId}/${post.slug}`">{{ post.title }}</router-link>
+      <router-link :to="`/admin/posts/${serviceId}/${post.postId}`">{{ post.title }}</router-link>
     </td>
     <td>{{ post.category.label }}</td>
     <td>
       <router-link
-        :to="`/admin/posts/${serviceId}/${post.slug}/edit`"
+        :to="`/admin/posts/${serviceId}/${post.postId}/edit`"
         class="button is-small"
       >
         <span class="icon is-small">
