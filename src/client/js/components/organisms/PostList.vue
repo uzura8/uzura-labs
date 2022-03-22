@@ -50,7 +50,7 @@ export default{
     return {
       posts: [],
       hasNext: false,
-      listCount: 3,
+      listCount: 10,
     }
   },
 
