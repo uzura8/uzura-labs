@@ -8,9 +8,7 @@
   </div>
 
   <h1 class="title">{{ post.title }}</h1>
-  <div>
-    {{ post.body }}
-  </div>
+  <div v-html="post.body"></div>
 
   <time
    itemprop="datepublished"

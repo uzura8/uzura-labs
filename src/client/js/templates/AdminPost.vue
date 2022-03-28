@@ -79,9 +79,7 @@
     </eb-dropdown>
   </div>
 
-  <div>
-    {{ post.body }}
-  </div>
+  <div v-html="post.body"></div>
 
   <ul class="mt-5">
     <li>
