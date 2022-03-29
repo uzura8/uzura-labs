@@ -51,7 +51,7 @@ export default{
     },
 
     categoryLabel() {
-      if ('category' in this.post) return '-'
+      if ('category' in this.post === false) return '-'
       if (this.checkEmpty(this.post.category)) return '-'
       if (this.checkEmpty(this.post.category.label)) return '-'
       return this.post.category.label
