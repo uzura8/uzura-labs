@@ -82,7 +82,7 @@
   <div v-html="post.body"></div>
 
   <ul class="mt-5">
-    <li>
+    <li v-if="'category' in post && post.category">
       <label>{{ $t('common.category') }}</label>
       <span>{{ post.category.label }}</span>
     </li>

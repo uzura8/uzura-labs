@@ -18,12 +18,13 @@
           </div>
 
           <div class="content">
-            {{ post.body }}
-            <br>
-            <time
-             itemprop="datepublished"
-              :datetime="post.publishAt | dateFormat('')"
-            >{{ post.publishAt | dateFormat }}</time>
+            <div v-html="post.body"></div>
+            <div class="mt-5">
+              <time
+                itemprop="datepublished"
+                :datetime="post.publishAt | dateFormat('')"
+              >{{ post.publishAt | dateFormat }}</time>
+            </div>
           </div>
         </div>
       </div>

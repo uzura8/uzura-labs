@@ -8,7 +8,7 @@
     <td>
       <router-link :to="`/admin/posts/${serviceId}/${post.postId}`">{{ post.title }}</router-link>
     </td>
-    <td>{{ post.category.label }}</td>
+    <td>{{ categoryLabel }}</td>
     <td>
       <router-link
         :to="`/admin/posts/${serviceId}/${post.postId}/edit`"
@@ -48,6 +48,13 @@ export default{
   computed: {
     publishStatus() {
       return this.getPostPublishStatus(this.post.postStatus, this.post.publishAt)
+    },
+
+    categoryLabel() {
+      if ('category' in this.post) return '-'
+      if (this.checkEmpty(this.post.category)) return '-'
+      if (this.checkEmpty(this.post.category.label)) return '-'
+      return this.post.category.label
     },
 
     rowBgColoerClass() {

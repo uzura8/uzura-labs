@@ -23,6 +23,7 @@
       :placeholder="$t('msg.SelectItem', { name:$t('common.category') })"
     >
       <optgroup
+        v-if="categories"
         v-for="pcate in categories"
         :key="pcate.slug"
         :label="pcate.label"
@@ -249,7 +250,9 @@ export default{
       if (!this.isEdit) return
 
       this.slug = this.post.slug != null ? String(this.post.slug) : ''
-      this.category = this.post.category.slug != null ? String(this.post.category.slug) : ''
+      this.category = ('category' in this.post && this.post.category && this.post.category.slug != null)
+        ? String(this.post.category.slug)
+        : ''
       this.title = this.post.title != null ? String(this.post.title) : ''
       this.body = this.post.body != null ? String(this.post.body) : ''
       this.publishAt = this.post.publishAt ? moment(this.post.publishAt).toDate() : null
@@ -368,9 +371,12 @@ export default{
       this.initError('category')
       if (this.category === null) this.category = ''
       this.category = this.category.trim()
-      if (this.checkEmpty(this.category)) {
-        this.errors.category.push(this.$t('msg["Input required"]'))
-      } else if (str.checkSlug(this.category) === false) {
+      //if (this.checkEmpty(this.category)) {
+      //  this.errors.category.push(this.$t('msg["Input required"]'))
+      //} else if (str.checkSlug(this.category) === false) {
+      //  this.errors.category.push(this.$t('msg.InvalidInput'))
+      //}
+      if (!this.checkEmpty(this.category) && str.checkSlug(this.category) === false) {
         this.errors.category.push(this.$t('msg.InvalidInput'))
       }
     },

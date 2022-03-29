@@ -1,7 +1,7 @@
 <template>
 <div>
   <aside
-    v-if="serviceId"
+    v-if="serviceId && categories"
     class="menu"
   >
     <p class="menu-label">{{ $t('common.categories') }}</p>
@@ -62,6 +62,9 @@ export default {
         this.$store.dispatch('setLoading', false)
       } catch (err) {
         this.$store.dispatch('setLoading', false)
+        if (err.response.status === 404) {
+          return
+        }
         this.handleApiError(err, this.$t('msg["Failed to get data from server"]'))
       }
     },

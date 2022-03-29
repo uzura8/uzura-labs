@@ -1,7 +1,7 @@
 <template>
 <div v-if="post">
   <div class="block">
-    <router-link :to="`/admin/posts/${serviceId}`">
+    <router-link :to="isAdminPath ? `/admin/posts/${serviceId}` : `/posts/${serviceId}`">
       <i class="fas fa-chevron-left"></i>
       <span>{{ $t('common.posts') }}</span>
     </router-link>
@@ -10,10 +10,12 @@
   <h1 class="title">{{ post.title }}</h1>
   <div v-html="post.body"></div>
 
-  <time
-   itemprop="datepublished"
-    :datetime="post.publishAt | dateFormat('')"
-  >{{ post.publishAt | dateFormat }}</time>
+  <div class="mt-5">
+    <time
+      itemprop="datepublished"
+      :datetime="post.publishAt | dateFormat('')"
+    >{{ post.publishAt | dateFormat }}</time>
+  </div>
 
   <nav
     v-if="post.category"
