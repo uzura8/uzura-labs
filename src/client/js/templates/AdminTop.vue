@@ -3,7 +3,7 @@
   <h1 class="title">{{ $t('page.adminTop') }}</h1>
   <p>{{ $t('msg.signInGreeting', { name: userName }) }}</p>
   <div class="mt-5">
-    <h2 class="title">Posts</h2>
+    <h2 class="title">サービスID一覧</h2>
     <service-ids :is-admin="true"></service-ids>
   </div>
 </div>
