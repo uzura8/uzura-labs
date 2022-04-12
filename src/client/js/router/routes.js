@@ -114,16 +114,19 @@ export default [
     path: '/admin/posts/:serviceId/create',
     name: 'AdminPostCreate',
     component: AdminPostCreate,
+    meta: { requiresAuth: true }
   },
   {
     path: '/admin/posts/:serviceId/:postId/edit',
     name: 'AdminPostEdit',
     component: AdminPostEdit,
+    meta: { requiresAuth: true }
   },
   {
     path: '/admin/posts/:serviceId/:postId',
     name: 'AdminPost',
     component: AdminPost,
+    meta: { requiresAuth: true }
   },
   {
     path: '/admin',
