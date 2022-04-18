@@ -61,6 +61,25 @@
   </b-field>
 
   <b-field
+    :label="$t('common.tag')"
+    :type="checkEmpty(errors.tags) ? '' : 'is-danger'"
+    :message="checkEmpty(errors.tags) ? $t('form.ExpAboutNewTagsSeparater') : errors.tags[0]"
+  >
+    <b-taginput
+      v-model="tags"
+      :data="filteredTags"
+      :autocomplete="true"
+      :allow-new="true"
+      :open-on-focus="true"
+      field="label"
+      icon-pack="fas"
+      icon="tag"
+      placeholder=""
+      @typing="getFilteredTags"
+    ></b-taginput>
+  </b-field>
+
+  <b-field
     :label="$t('common.publishAt')"
     :type="checkEmpty(errors.publishAt) ? '' : 'is-danger'"
     :message="checkEmpty(errors.publishAt) ? '' : errors.publishAt[0]"
@@ -156,7 +175,7 @@
 <script>
 import moment from 'moment'
 import str from '@/util/str'
-import { Admin, Category } from '@/api'
+import { Admin, Category, Tag } from '@/api'
 
 export default{
   name: 'AdminPostForm',
@@ -177,9 +196,12 @@ export default{
       category: '',
       title: '',
       body: '',
+      tags: [],
       publishAt: null,
       categories: [],
-      fieldKeys: ['slug', 'category', 'title', 'body', 'publishAt'],
+      fieldKeys: ['slug', 'category', 'title', 'body', 'tags', 'publishAt'],
+      savedTags: [],
+      filteredTags: [],
     }
   },
 
@@ -220,12 +242,9 @@ export default{
       return !this.checkEmpty(this.updatedValues)
     },
 
-    isEmptyAllFields() {
+    isEmptyRequiredFields() {
       if (!this.checkEmpty(this.slug)) return false
-      if (!this.checkEmpty(this.category)) return false
       if (!this.checkEmpty(this.title)) return false
-      if (!this.checkEmpty(this.body)) return false
-      if (!this.checkEmpty(this.publishAt)) return false
       return true
     },
 
@@ -240,9 +259,17 @@ export default{
     },
   },
 
+  watch: {
+     tags(val) {
+       this.updateFilteredTags()
+       this.validate('tags')
+    },
+  },
+
   async created() {
     this.setPost()
-    await this.setCategories()
+    this.setCategories()
+    this.setTags()
   },
 
   methods: {
@@ -255,13 +282,34 @@ export default{
         : ''
       this.title = this.post.title != null ? String(this.post.title) : ''
       this.body = this.post.body != null ? String(this.post.body) : ''
+      this.tags = this.checkEmpty(this.post.tags) === false ? this.post.tags : []
       this.publishAt = this.post.publishAt ? moment(this.post.publishAt).toDate() : null
     },
 
     async setCategories() {
-      const res = await Category.get(this.serviceId)
-      if (res.length > 0) {
-        this.categories = res[0].children
+      try {
+        const res = await Category.get(this.serviceId)
+        if (res.length > 0) {
+          this.categories = res[0].children
+        }
+      } catch (err) {
+        console.log(err);//!!!!!!
+        this.$store.dispatch('setLoading', false)
+        this.handleApiError(err, this.$t('msg["Failed to get data from server"]'))
+      }
+    },
+
+    async setTags() {
+      try {
+        const res = await Tag.get(this.serviceId)
+        if (res.length > 0) {
+          this.savedTags = res
+          this.filteredTags = res
+        }
+      } catch (err) {
+        console.log(err);//!!!!!!
+        this.$store.dispatch('setLoading', false)
+        this.handleApiError(err, this.$t('msg["Failed to get data from server"]'))
       }
     },
 
@@ -270,6 +318,7 @@ export default{
       this.category = ''
       this.title = ''
       this.body = ''
+      this.tags = []
       this.publishAt = null
     },
 
@@ -283,6 +332,16 @@ export default{
         vals.category = this.category
         vals.title = this.title
         vals.body = this.body
+
+        vals.tags = []
+        this.tags.map((tag) => {
+          if (typeof tag === 'string') {
+            vals.tags.push({ label: tag })
+          } else {
+            vals.tags.push({ tagId: tag.tagId })
+          }
+        })
+
         if (this.publishAt) {
           const publishAtStr = moment.utc(this.publishAt).format('YYYY-MM-DDTHH:mm:ssZ')
           vals.publishAt = publishAtStr
@@ -341,7 +400,7 @@ export default{
       })
       if (this.hasErrors) {
         this.globalError = this.$t("msg['Correct inputs with error']")
-      } else if (this.isEmptyAllFields) {
+      } else if (this.isEmptyRequiredFields) {
         this.globalError = this.$t("msg['Input required']")
       }
     },
@@ -395,8 +454,42 @@ export default{
       if (this.checkEmpty(this.body)) this.errors.body.push(this.$t('msg["Input required"]'))
     },
 
+    validateTags() {
+      this.initError('tags')
+      this.tags.map((val) => {
+        if (typeof val !== 'string') return
+        if (this.savedTags.find(saved => saved.label === val) != null) {
+          this.errors.tags.push(this.$t('msg.duplicated'))
+        }
+      })
+    },
+
     validatePublishAt() {
       this.initError('publishAt')
+    },
+
+    updateFilteredTags() {
+      this.filteredTags = this.savedTags.filter((savedTag) => {
+        const matched = this.tags.find((tag) => {
+          if (typeof tag === 'string') {
+            return tag === savedTag.label
+          } else {
+            return tag.label === savedTag.label
+          }
+        })
+        return matched == null
+      })
+    },
+
+    getFilteredTags(text) {
+      this.filteredTags = this.savedTags.filter((option) => {
+        if (this.tags.find(tag => tag.tagId == option.tagId) != null) return
+        return option.label
+          .toString()
+          //.toLowerCase()
+          //.indexOf(text.toLowerCase()) >= 0
+          .indexOf(text) >= 0
+      })
     },
   },
 }

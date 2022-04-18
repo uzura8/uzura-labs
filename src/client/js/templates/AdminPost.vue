@@ -86,6 +86,15 @@
       <label>{{ $t('common.category') }}</label>
       <span>{{ post.category.label }}</span>
     </li>
+    <li v-if="'tags' in post && post.tags">
+      <label>{{ $t('common.tag') }}</label>
+      <span>
+        <span
+          v-for="tag in post.tags"
+          class="tag ml-2"
+          >{{ tag.label }}</span>
+      </span>
+    </li>
     <li>
       <label>{{ $t('common.publishAt') }}</label>
       <inline-time

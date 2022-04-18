@@ -45,6 +45,7 @@
     "postsOf": "Posts of {label}",
     "category": "Category",
     "categories": "Categories",
+    "tag": "Tag",
     "image": "Image",
     "enabled": "Enabled",
     "disabled": "Disabled",
@@ -74,6 +75,7 @@
     "Values not updated": "Values not updated",
     "Failed to get data from server": "Failed to get data from server",
     "Input required": "Input required",
+    "duplicated": "Input duplicated",
     "empty values not allowed": "Empty values not allowed",
     "InvalidInput": "Invalid",
     "Correct inputs with error": "Correct inputs with error",
@@ -148,6 +150,7 @@
     "PostforDetail": "Post for Detail",
     "title": "Title",
     "body": "Body",
+    "ExpAboutNewTagsSeparater": "Please input \",\" to separate on adding new tags",
     "Add a comment...": "Add a comment..."
   },
   "term": {

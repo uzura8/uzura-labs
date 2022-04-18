@@ -46,6 +46,7 @@
     "postsOf": "{label} の投稿一覧",
     "category": "カテゴリ",
     "categories": "カテゴリ一覧",
+    "tag": "タグ",
     "image": "画像",
     "enabled": "有効",
     "disabled": "無効",
@@ -75,6 +76,7 @@
     "Values not updated": "更新されませんでした",
     "Failed to get data from server": "データの取得に失敗しました",
     "Input required": "未入力です",
+    "duplicated": "重複があります",
     "empty values not allowed": "入力は必須です",
     "InvalidInput": "正しくありません",
     "Correct inputs with error": "エラーを修正してください",
@@ -149,6 +151,7 @@
     "PostforDetail": "詳細投稿",
     "title": "タイトル",
     "body": "本文",
+    "ExpAboutNewTagsSeparater": "新規タグを追加する場合は「, (カンマ)」で区切って指定してください",
     "Add a comment...": "メッセージを入力してください"
   },
   "term": {
