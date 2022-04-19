@@ -13,6 +13,7 @@ import Settings from '@/templates/Settings'
 import Post from '@/templates/Post'
 import Posts from '@/templates/Posts'
 import PostCategories from '@/templates/PostCategories'
+import PostTags from '@/templates/PostTags'
 import AdminTop from '@/templates/AdminTop'
 //import AdminUsers from '@/templates/AdminUsers'
 //import UserCreate from '@/templates/UserCreate'
@@ -70,6 +71,11 @@ export default [
     path: '/posts/:serviceId/categories/:categorySlug?',
     name: 'PostCategories',
     component: PostCategories,
+  },
+  {
+    path: '/posts/:serviceId/tags/:tagLabel?',
+    name: 'PostTags',
+    component: PostTags,
   },
   {
     path: '/posts/:serviceId/:slug',

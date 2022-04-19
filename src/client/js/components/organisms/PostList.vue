@@ -60,6 +60,10 @@ export default{
       return this.$route.params.categorySlug
     },
 
+    tagLabel() {
+      return this.$route.params.tagLabel
+    },
+
     lastItemPublishedAt () {
       const lastIndex = this.posts.length - 1
       return this.posts.length > 0 ? encodeURI(this.posts[lastIndex].publishAt) : null
@@ -68,6 +72,11 @@ export default{
 
   watch: {
     categorySlug() {
+      this.posts = []
+      this.fetchPosts()
+    },
+
+    tagLabel() {
       this.posts = []
       this.fetchPosts()
     },
@@ -81,9 +90,13 @@ export default{
     async fetchPosts(params = {}, isLatest = false) {
       const params_copied = { ...params }
       params_copied.count = this.listCount + 1
+
       if (this.categorySlug) {
         params_copied.category = this.categorySlug
+      } else if (this.tagLabel) {
+        params_copied.tag = this.tagLabel
       }
+
       this.$store.dispatch('setLoading', true)
       try {
         let items = await Post.get(this.serviceId, null, params_copied)
@@ -106,6 +119,7 @@ export default{
         })
         this.$store.dispatch('setLoading', false)
       } catch (err) {
+        console.log(err);//!!!!!!
         this.$store.dispatch('setLoading', false)
         this.handleApiError(err, this.$t('msg["Failed to get data from server"]'))
       }

@@ -301,7 +301,7 @@ export default{
 
     async setTags() {
       try {
-        const res = await Tag.get(this.serviceId)
+        const res = await Tag.getAll(this.serviceId)
         if (res.length > 0) {
           this.savedTags = res
           this.filteredTags = res

@@ -36,6 +36,19 @@
       </li>
     </ul>
   </nav>
+
+    <ul v-if="'tags' in post && post.tags">
+      <li
+        v-for="tag in post.tags"
+        class="is-inline-block mr-2"
+      >
+        <router-link
+          :to="`/posts/${serviceId}/tags/${tag.label}`"
+          class="tag"
+        >{{ tag.label }}</router-link>
+      </li>
+    </ul>
+
 </div>
 </template>
 <script>
