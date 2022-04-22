@@ -56,11 +56,16 @@ router.beforeEach(async(to, from, next) => {
     try {
       const token = session.idToken.jwtToken
       const res = await cognito.getAttribute()
-      let user = {}
+      let attrs = {}
       for(let v of res) {
-        user[v.getName()] = v.getValue()
+        let key = v.getName().replace(/^custom\:/g, '')
+        attrs[key] = v.getValue()
       }
-      user['token'] = token
+      const user = {
+        username: cognito.currentUser.username,
+        token: token,
+        attributes: attrs,
+      }
       store.dispatch('setAdminUser', user)
     } catch (err) {
       //console.log(err)

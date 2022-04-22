@@ -12,6 +12,14 @@ export default {
     return Boolean(state.adminUser)
   },
 
+  adminUserAcceptServiceIds: state => () => {
+    if (state.adminUser == null) return []
+    if ('attributes' in state.adminUser === false) return []
+    if ('acceptServiceIds' in state.adminUser.attributes === false) return []
+    if (! state.adminUser.attributes.acceptServiceIds) return []
+    return state.adminUser.attributes.acceptServiceIds.split(',')
+  },
+
   adminPostsPagerIndexCount: state => () => {
     return state.adminPostsPager.keys.length
   },
