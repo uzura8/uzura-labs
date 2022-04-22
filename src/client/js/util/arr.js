@@ -5,6 +5,16 @@ export default {
     return array.includes(value)
   },
 
+  isEqualArray: function(array1, array2) {
+    var i = array1.length
+    if (i != array2.length) return false
+
+    while (i--) {
+      if (array1[i] !== array2[i]) return false
+    }
+    return true
+  },
+
   compareValues: (key, order='asc') => {
     return function(a, b) {
       if (Object.hasOwnProperty.call(a, key) && Object.hasOwnProperty.call(b, key)) {

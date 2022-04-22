@@ -17,7 +17,8 @@
   <div  class="navbar-menu" v-bind:class="{'is-active': isHeaderMenuOpen}">
     <div class="navbar-start">
       <router-link to="/admin" class="navbar-item">{{ $t('page.adminTop') }}</router-link>
-      <router-link to="/admin/users" class="navbar-item">{{ $t('page.UserManagement') }}</router-link>
+      <router-link to="/admin/services" class="navbar-item">{{ $t('page.ServiceManagement') }}</router-link>
+      <router-link to="/admin/users" class="navbar-item">{{ $t('page.AdminUserManagement') }}</router-link>
       <router-link
         v-if="isAdminUser"
         to="/admin/signout" class="navbar-item"

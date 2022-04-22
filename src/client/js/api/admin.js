@@ -3,6 +3,45 @@ import utilUri from '@/util/uri'
 import client from './client'
 
 export default {
+  getServices: (identifer = '', params = {}, token = null) => {
+    return new Promise((resolve, reject) => {
+      const options = utilUri.getReqOptions(params, token)
+      const uri = identifer ? `admin/services/${identifer}` : `admin/services`
+      client.get(uri, options)
+        .then((res) => {
+          resolve(res.data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
+  },
+
+  getUsers: (identifer = '', params = {}, token = null) => {
+    return new Promise((resolve, reject) => {
+      const options = utilUri.getReqOptions(params, token)
+      const uri = identifer ? `admin/users/${identifer}` : `admin/users`
+      client.get(uri, options)
+        .then((res) => {
+          resolve(res.data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
+  },
+
+  updateUser: (username, vals, token = null) => {
+    return new Promise((resolve, reject) => {
+      if (utilCommon.isEmpty(vals)) throw new Error('No value')
+      const options = utilUri.getReqOptions(null, token)
+      const uri = `admin/users/${username}`
+      client.post(uri, vals, options)
+        .then(res => resolve(res.data))
+        .catch(err => reject(err))
+    })
+  },
+
   getPosts: (serviceId, identifer = '', params = {}, token = null) => {
     return new Promise((resolve, reject) => {
       const options = utilUri.getReqOptions(params, token)

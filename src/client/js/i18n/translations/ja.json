@@ -52,6 +52,7 @@
     "QuotedFrom": "{name} より引用",
     "QRCode": "QRコード",
     "preview": "プレビュー",
+    "AdminUser": "管理ユーザ",
     "more": "もっと見る"
   },
   "msg": {
@@ -69,6 +70,7 @@
     "invalidValueIncludedError": "正しくない値が含まれています",
     "invalidValueIncludedErrorWithLabel": "{field} に正しくない値が含まれています",
     "Edit failed": "変更に失敗しました",
+    "Update failed": "更新に失敗しました",
     "Create failed": "作成に失敗しました",
     "Delete failed": "削除に失敗しました",
     "Upload failed": "アップロードに失敗しました",
@@ -156,6 +158,9 @@
     "guestUser": "ゲストユーザ",
     "username": "ユーザネーム",
     "usernameOf": "{service} のユーザネーム",
+    "userRoleAdmin": "管理者",
+    "userRoleNormal": "一般",
+    "acceptServices": "使用可能なサービス",
     "facebook": "Facebook",
     "twitter": "Twitter"
   },
@@ -170,6 +175,12 @@
     "createUser": "ユーザ作成",
     "editUser": "ユーザ編集",
     "Settings": "設定",
+    "Services": "サービス一覧",
+    "ServiceSettings": "サービス設定",
+    "ServiceManagement": "サービス管理",
+    "AdminUsers": "管理ユーザ一覧",
+    "AdminUserSettings": "管理ユーザ設定",
+    "AdminUserManagement": "ユーザ管理",
     "about": "このサイトについて"
   },
   "site": {

@@ -14,6 +14,9 @@ import Post from '@/templates/Post'
 import Posts from '@/templates/Posts'
 import PostCategories from '@/templates/PostCategories'
 import AdminTop from '@/templates/AdminTop'
+import AdminServices from '@/templates/AdminServices'
+import AdminUsers from '@/templates/AdminUsers'
+import AdminUser from '@/templates/AdminUser'
 //import AdminUsers from '@/templates/AdminUsers'
 //import UserCreate from '@/templates/UserCreate'
 //import UserEdit from '@/templates/UserEdit'
@@ -86,12 +89,24 @@ export default [
     name: 'AdminSignIn',
     component: AdminSignIn
   },
-  //{
-  //  path: '/admin/users',
-  //  name: 'AdminUsers',
-  //  component: AdminUsers,
-  //  meta: { requiresAuth: true }
-  //},
+  {
+    path: '/admin/services',
+    name: 'AdminServices',
+    component: AdminServices,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/admin/users',
+    name: 'AdminUsers',
+    component: AdminUsers,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/admin/users/:username',
+    name: 'AdminUser',
+    component: AdminUser,
+    meta: { requiresAuth: true }
+  },
   //{
   //  path: '/admin/users/create',
   //  name: 'AdminUserCreate',
