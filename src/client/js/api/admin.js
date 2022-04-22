@@ -111,5 +111,19 @@ export default {
         .catch(err => reject(err))
     })
   },
+
+  getAccountServices: (params = {}, token = null) => {
+    return new Promise((resolve, reject) => {
+      const options = utilUri.getReqOptions(params, token)
+      const uri = 'admin/account/services'
+      client.get(uri, options)
+        .then((res) => {
+          resolve(res.data)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
+  },
 }
 
