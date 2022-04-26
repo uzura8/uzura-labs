@@ -25,8 +25,8 @@ export default{
   },
 
   computed: {
-    slug() {
-      return this.$route.params.slug
+    postId() {
+      return this.$route.params.postId
     },
   },
 
@@ -39,7 +39,7 @@ export default{
       this.$store.dispatch('setLoading', true)
       try {
         this.$store.dispatch('setLoading', false)
-        this.post = await Admin.getPosts(this.serviceId, this.slug, null, this.adminUserToken)
+        this.post = await Admin.getPosts(this.serviceId, this.postId, null, this.adminUserToken)
       } catch (err) {
         this.$store.dispatch('setLoading', false)
         this.handleApiError(err, this.$t('msg["Failed to get data from server"]'))

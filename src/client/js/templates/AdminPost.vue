@@ -34,7 +34,7 @@
       </span>
       <div class="dropdown-content">
         <router-link
-          :to="`/admin/posts/${serviceId}/${post.slug}/edit`"
+          :to="`/admin/posts/${serviceId}/${post.postId}/edit`"
           class="dropdown-item"
         >
           <span class="icon">
@@ -125,8 +125,8 @@ export default{
   },
 
   computed: {
-    slug() {
-      return this.$route.params.slug
+    postId() {
+      return this.$route.params.postId
     },
 
     isPublished() {
@@ -156,11 +156,7 @@ export default{
 
   methods: {
     async getPost() {
-      this.post = await Admin.getPosts(this.serviceId, this.slug, null, this.adminUserToken)
-    },
-
-    async getPost() {
-      this.post = await Admin.getPosts(this.serviceId, this.slug, null, this.adminUserToken)
+      this.post = await Admin.getPosts(this.serviceId, this.postId, null, this.adminUserToken)
     },
 
     confirmPublish() {
@@ -174,7 +170,7 @@ export default{
       try {
         this.$store.dispatch('setLoading', true)
         const postStatus = isPublish ? 'publish' : 'unpublish'
-        const res = await Admin.updatePostStatus(this.serviceId, this.slug, postStatus, this.adminUserToken)
+        const res = await Admin.updatePostStatus(this.serviceId, this.postId, postStatus, this.adminUserToken)
         this.$store.dispatch('setLoading', false)
         this.post = res
         this.$emit('posted', res)
@@ -199,7 +195,7 @@ export default{
     async deletePost() {
       try {
         this.$store.dispatch('setLoading', true)
-        const res = await Admin.deletePost(this.serviceId, this.slug, this.adminUserToken)
+        const res = await Admin.deletePost(this.serviceId, this.postId, this.adminUserToken)
         this.$store.dispatch('setLoading', false)
         this.$router.push(`/admin/posts/${this.serviceId}`)
       } catch (err) {

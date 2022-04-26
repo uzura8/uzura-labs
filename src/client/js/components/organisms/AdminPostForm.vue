@@ -293,7 +293,7 @@ export default{
         this.$store.dispatch('setLoading', true)
         let res
         if (this.isEdit) {
-          res = await Admin.editPost(this.serviceId, this.post.slug, vals, this.adminUserToken)
+          res = await Admin.editPost(this.serviceId, this.post.postId, vals, this.adminUserToken)
         } else {
           res = await Admin.createPost(this.serviceId, vals, this.adminUserToken)
           this.$store.dispatch('resetAdminPostsPager', false)
@@ -301,7 +301,7 @@ export default{
         this.$store.dispatch('setLoading', false)
         this.$emit('posted', post)
         this.resetInputs()
-        this.$router.push(`/admin/posts/${this.serviceId}/${vals.slug}`)
+        this.$router.push(`/admin/posts/${this.serviceId}/${res.postId}`)
       } catch (err) {
         this.$store.dispatch('setLoading', false)
         if (this.checkResponseHasErrorMessage(err, true)) {
