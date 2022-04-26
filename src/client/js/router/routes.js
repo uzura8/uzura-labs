@@ -93,19 +93,28 @@ export default [
     path: '/admin/services',
     name: 'AdminServices',
     component: AdminServices,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true,
+      requiresRoleAdmin: true,
+    },
   },
   {
     path: '/admin/users',
     name: 'AdminUsers',
     component: AdminUsers,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true,
+      requiresRoleAdmin: true,
+    },
   },
   {
     path: '/admin/users/:username',
     name: 'AdminUser',
     component: AdminUser,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true,
+      requiresRoleAdmin: true,
+    },
   },
   //{
   //  path: '/admin/users/create',
@@ -123,22 +132,37 @@ export default [
     path: '/admin/posts/:serviceId',
     name: 'AdminPosts',
     component: AdminPosts,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true,
+      requiresAcceptService: true,
+    },
   },
   {
     path: '/admin/posts/:serviceId/create',
     name: 'AdminPostCreate',
     component: AdminPostCreate,
+    meta: {
+      requiresAuth: true,
+      requiresAcceptService: true,
+    },
   },
   {
     path: '/admin/posts/:serviceId/:postId',
     name: 'AdminPost',
     component: AdminPost,
+    meta: {
+      requiresAuth: true,
+      requiresAcceptService: true,
+    },
   },
   {
     path: '/admin/posts/:serviceId/:postId/edit',
     name: 'AdminPostEdit',
     component: AdminPostEdit,
+    meta: {
+      requiresAuth: true,
+      requiresAcceptService: true,
+    },
   },
   {
     path: '/admin',

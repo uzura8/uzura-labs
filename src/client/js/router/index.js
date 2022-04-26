@@ -67,6 +67,16 @@ router.beforeEach(async(to, from, next) => {
         attributes: attrs,
       }
       store.dispatch('setAdminUser', user)
+      if (to.matched.some(record => record.meta.requiresRoleAdmin)) {
+        if (store.getters.hasAdminRole() === false) {
+          next({ path: '/error/forbidden' })
+        }
+      }
+      if (to.matched.some(record => record.meta.requiresAcceptService)) {
+        if (store.getters.checkServiceIdAccepted(to.params.serviceId) === false) {
+          next({ path: '/error/forbidden' })
+        }
+      }
     } catch (err) {
       //console.log(err)
       store.dispatch('setAdminUser', null)
