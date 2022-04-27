@@ -17,6 +17,26 @@ export default {
     })
   },
 
+  createService: (vals, token = null) => {
+    return new Promise((resolve, reject) => {
+      const options = utilUri.getReqOptions(null, token)
+      const uri = 'admin/services'
+      client.post(uri, vals, options)
+        .then(res => resolve(res.data))
+        .catch(err => reject(err))
+    })
+  },
+
+  updateService: (serviceId, vals, token = null) => {
+    return new Promise((resolve, reject) => {
+      const options = utilUri.getReqOptions(null, token)
+      const uri = `admin/services/${serviceId}`
+      client.post(uri, vals, options)
+        .then(res => resolve(res.data))
+        .catch(err => reject(err))
+    })
+  },
+
   getUsers: (identifer = '', params = {}, token = null) => {
     return new Promise((resolve, reject) => {
       const options = utilUri.getReqOptions(params, token)
@@ -80,7 +100,7 @@ export default {
     })
   },
 
-  editPost: (serviceId, identifer, vals, token = null) => {
+  updatePost: (serviceId, identifer, vals, token = null) => {
     return new Promise((resolve, reject) => {
       if (utilCommon.isEmpty(vals)) throw new Error('No value')
       const options = utilUri.getReqOptions(null, token)

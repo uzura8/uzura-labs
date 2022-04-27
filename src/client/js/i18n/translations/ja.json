@@ -160,6 +160,7 @@
     "usernameOf": "{service} のユーザネーム",
     "userRoleAdmin": "管理者",
     "userRoleNormal": "一般",
+    "service": "サービス",
     "acceptServices": "使用可能なサービス",
     "facebook": "Facebook",
     "twitter": "Twitter"

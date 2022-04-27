@@ -159,6 +159,7 @@
     "usernameOf": "Username of {service}",
     "userRoleAdmin": "Admin",
     "userRoleNormal": "Normal",
+    "service": "Service",
     "acceptServices": "Available services",
     "facebook": "Facebook",
     "twitter": "Twitter"

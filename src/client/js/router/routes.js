@@ -15,6 +15,8 @@ import Posts from '@/templates/Posts'
 import PostCategories from '@/templates/PostCategories'
 import AdminTop from '@/templates/AdminTop'
 import AdminServices from '@/templates/AdminServices'
+import AdminServiceCreate from '@/templates/AdminServiceCreate'
+import AdminServiceEdit from '@/templates/AdminServiceEdit'
 import AdminUsers from '@/templates/AdminUsers'
 import AdminUser from '@/templates/AdminUser'
 //import AdminUsers from '@/templates/AdminUsers'
@@ -93,6 +95,24 @@ export default [
     path: '/admin/services',
     name: 'AdminServices',
     component: AdminServices,
+    meta: {
+      requiresAuth: true,
+      requiresRoleAdmin: true,
+    },
+  },
+  {
+    path: '/admin/services/create',
+    name: 'AdminServiceCreate',
+    component: AdminServiceCreate,
+    meta: {
+      requiresAuth: true,
+      requiresRoleAdmin: true,
+    },
+  },
+  {
+    path: '/admin/services/:serviceId/edit',
+    name: 'AdminServiceEdit',
+    component: AdminServiceEdit,
     meta: {
       requiresAuth: true,
       requiresRoleAdmin: true,
