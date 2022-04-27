@@ -7,10 +7,10 @@
     <h2 class="title is-4">{{ $t('page.AdminPostManagement') }}</h2>
     <ul>
       <li v-for="service in services">
-        <router-link
-          :to="`/admin/posts/${service.serviceId}`"
-          class="has-text-weight-semibold"
-        >{{ service.label }}</router-link>
+        <router-link :to="`/admin/posts/${service.serviceId}`">
+          <span class="has-text-weight-semibold">{{ service.label }}</span>
+          <span class="ml-1">({{ service.serviceId }})</span>
+        </router-link>
       </li>
     </ul>
   </div>
@@ -37,6 +37,9 @@ export default{
 
   async created() {
     await this.fetchServices()
+    //if (this.services.length === 1) {
+    //  this.$router.push(`/admin/posts/${this.services[0].serviceId}`)
+    //}
   },
 
   methods: {
