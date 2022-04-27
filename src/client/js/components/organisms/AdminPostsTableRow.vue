@@ -8,7 +8,7 @@
     <td>
       <router-link :to="`/admin/posts/${serviceId}/${post.postId}`">{{ post.title }}</router-link>
     </td>
-    <td>{{ categoryLabel }}</td>
+    <td v-text="'category' in post && post.category ? post.category.label : '-'"></td>
     <td>
       <router-link
         :to="`/admin/posts/${serviceId}/${post.postId}/edit`"

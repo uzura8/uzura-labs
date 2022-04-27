@@ -166,10 +166,6 @@ export default{
       this.post = await Admin.getPosts(this.serviceId, this.postId, null, this.adminUserToken)
     },
 
-    async getPost() {
-      this.post = await Admin.getPosts(this.serviceId, this.postId, null, this.adminUserToken)
-    },
-
     confirmPublish() {
       this.$buefy.dialog.confirm({
         message: this.$t('msg.cofirmToPublish'),

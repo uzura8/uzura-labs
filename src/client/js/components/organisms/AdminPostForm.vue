@@ -215,31 +215,10 @@ export default{
       return this.post.postStatus === 'publish'
     },
 
-    updatedValues () {
-      if (!this.isEdit) return {}
-
-      let isUpdated = false
-      let values = {}
-      for (let i = 0, n = this.fieldKeys.length; i < n; i++) {
-        let key = this.fieldKeys[i]
-        if (this.post[key] != this[key]) {
-          values[key] = this[key]
-          isUpdated = true
-        }
-      }
-      if (!isUpdated) return null
-      return values
-    },
-
     isPostBtnDisabled() {
       if (this.hasErrors) return true
       if (this.body.length == 0) return true
       return false
-    },
-
-    isUpdated() {
-      if (!this.isEdit) return true
-      return !this.checkEmpty(this.updatedValues)
     },
 
     isEmptyRequiredFields() {
@@ -354,7 +333,7 @@ export default{
         this.$store.dispatch('setLoading', true)
         let res
         if (this.isEdit) {
-          res = await Admin.editPost(this.serviceId, this.post.postId, vals, this.adminUserToken)
+          res = await Admin.updatePost(this.serviceId, this.post.postId, vals, this.adminUserToken)
         } else {
           res = await Admin.createPost(this.serviceId, vals, this.adminUserToken)
           this.$store.dispatch('resetAdminPostsPager', false)

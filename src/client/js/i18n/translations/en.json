@@ -53,6 +53,7 @@
     "QuotedFrom": "Quoted from {name}",
     "QRCode": "QR code",
     "preview": "Preview",
+    "AdminUser": "Admin User",
     "more": "More"
   },
   "msg": {
@@ -70,6 +71,7 @@
     "invalidValueIncludedError": "Included invalid value",
     "invalidValueIncludedErrorWithLabel": "{field} includes invalid value",
     "Edit failed": "Edit failed",
+    "Update failed": "Update failed",
     "Create failed": "Create failed",
     "Delete failed": "Delete failed",
     "Upload failed": "Upload failed",
@@ -159,6 +161,10 @@
     "guestUser": "GuestUser",
     "username": "Username",
     "usernameOf": "Username of {service}",
+    "userRoleAdmin": "Admin",
+    "userRoleNormal": "Normal",
+    "service": "Service",
+    "acceptServices": "Available services",
     "facebook": "Facebook",
     "twitter": "Twitter"
   },
@@ -173,6 +179,13 @@
     "createUser": "Create User",
     "editUser": "Edit User",
     "Settings": "Settings",
+    "Services": "Services",
+    "ServiceSettings": "Service Settings",
+    "ServiceManagement": "Service Management",
+    "AdminUsers": "Admin Users",
+    "AdminUserSettings": "Admin User Settings",
+    "AdminUserManagement": "Admin User Management",
+    "AdminPostManagement": "Posts Management",
     "about": "About"
   },
   "site": {

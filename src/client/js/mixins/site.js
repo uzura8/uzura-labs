@@ -26,8 +26,24 @@ export default {
       return this.$store.getters.isAdminUser()
     },
 
+    hasAdminRole() {
+      if (this.isAdminUser === false) return false
+      if (this.$store.state.adminUser == null) return false
+      if ('attributes' in this.$store.state.adminUser === false) return false
+      if ('role' in this.$store.state.adminUser.attributes === false) return false
+      return this.$store.state.adminUser.attributes.role === 'admin'
+    },
+
+    adminUserAcceptServiceIds() {
+      return this.$store.getters.adminUserAcceptServiceIds()
+    },
+
     adminUserToken() {
       return this.$store.state.adminUser.token
+    },
+
+    adminUserName() {
+      return this.$store.state.adminUser.username
     },
 
     isAuth: function () {

@@ -12,6 +12,30 @@ export default {
     return Boolean(state.adminUser)
   },
 
+  hasAdminRole: state => () => {
+    if (state.adminUser == null) return false
+    if ('attributes' in state.adminUser === false) return false
+    if ('role' in state.adminUser.attributes === false) return false
+    return state.adminUser.attributes.role === 'admin'
+  },
+
+  adminUserAcceptServiceIds: state => () => {
+    if (state.adminUser == null) return []
+    if ('attributes' in state.adminUser === false) return []
+    if ('acceptServiceIds' in state.adminUser.attributes === false) return []
+    if (! state.adminUser.attributes.acceptServiceIds) return []
+    return state.adminUser.attributes.acceptServiceIds.split(',')
+  },
+
+  checkServiceIdAccepted: state => (serviceId) => {
+    if (state.adminUser == null) return false
+    if ('attributes' in state.adminUser === false) return false
+    if ('acceptServiceIds' in state.adminUser.attributes === false) return false
+    if (! state.adminUser.attributes.acceptServiceIds) return false
+    const acceptServiceIds = state.adminUser.attributes.acceptServiceIds.split(',')
+    return acceptServiceIds.includes(serviceId)
+  },
+
   adminPostsPagerIndexCount: state => () => {
     return state.adminPostsPager.keys.length
   },

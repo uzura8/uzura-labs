@@ -15,6 +15,11 @@ import Posts from '@/templates/Posts'
 import PostCategories from '@/templates/PostCategories'
 import PostTags from '@/templates/PostTags'
 import AdminTop from '@/templates/AdminTop'
+import AdminServices from '@/templates/AdminServices'
+import AdminServiceCreate from '@/templates/AdminServiceCreate'
+import AdminServiceEdit from '@/templates/AdminServiceEdit'
+import AdminUsers from '@/templates/AdminUsers'
+import AdminUser from '@/templates/AdminUser'
 //import AdminUsers from '@/templates/AdminUsers'
 //import UserCreate from '@/templates/UserCreate'
 //import UserEdit from '@/templates/UserEdit'
@@ -92,12 +97,51 @@ export default [
     name: 'AdminSignIn',
     component: AdminSignIn
   },
-  //{
-  //  path: '/admin/users',
-  //  name: 'AdminUsers',
-  //  component: AdminUsers,
-  //  meta: { requiresAuth: true }
-  //},
+  {
+    path: '/admin/services',
+    name: 'AdminServices',
+    component: AdminServices,
+    meta: {
+      requiresAuth: true,
+      requiresRoleAdmin: true,
+    },
+  },
+  {
+    path: '/admin/services/create',
+    name: 'AdminServiceCreate',
+    component: AdminServiceCreate,
+    meta: {
+      requiresAuth: true,
+      requiresRoleAdmin: true,
+    },
+  },
+  {
+    path: '/admin/services/:serviceId/edit',
+    name: 'AdminServiceEdit',
+    component: AdminServiceEdit,
+    meta: {
+      requiresAuth: true,
+      requiresRoleAdmin: true,
+    },
+  },
+  {
+    path: '/admin/users',
+    name: 'AdminUsers',
+    component: AdminUsers,
+    meta: {
+      requiresAuth: true,
+      requiresRoleAdmin: true,
+    },
+  },
+  {
+    path: '/admin/users/:username',
+    name: 'AdminUser',
+    component: AdminUser,
+    meta: {
+      requiresAuth: true,
+      requiresRoleAdmin: true,
+    },
+  },
   //{
   //  path: '/admin/users/create',
   //  name: 'AdminUserCreate',
@@ -114,25 +158,37 @@ export default [
     path: '/admin/posts/:serviceId',
     name: 'AdminPosts',
     component: AdminPosts,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true,
+      requiresAcceptService: true,
+    },
   },
   {
     path: '/admin/posts/:serviceId/create',
     name: 'AdminPostCreate',
     component: AdminPostCreate,
-    meta: { requiresAuth: true }
-  },
-  {
-    path: '/admin/posts/:serviceId/:postId/edit',
-    name: 'AdminPostEdit',
-    component: AdminPostEdit,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true,
+      requiresAcceptService: true,
+    },
   },
   {
     path: '/admin/posts/:serviceId/:postId',
     name: 'AdminPost',
     component: AdminPost,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true,
+      requiresAcceptService: true,
+    },
+  },
+  {
+    path: '/admin/posts/:serviceId/:postId/edit',
+    name: 'AdminPostEdit',
+    component: AdminPostEdit,
+    meta: {
+      requiresAuth: true,
+      requiresAcceptService: true,
+    },
   },
   {
     path: '/admin',
