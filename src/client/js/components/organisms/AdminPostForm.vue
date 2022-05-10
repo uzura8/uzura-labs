@@ -343,7 +343,9 @@ export default{
       this.slug = ''
       this.category = ''
       this.title = ''
-      this.body = ''
+      if (this.editorMode !== 'ritchText') {
+        this.body = ''
+      }
       this.tags = []
       this.publishAt = null
     },
