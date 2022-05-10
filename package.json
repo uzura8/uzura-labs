@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.13.17",
+    "@tinymce/tinymce-vue": "^3.2.8",
     "amazon-cognito-identity-js": "^5.2.6",
     "aws-sdk": "^2.1079.0",
     "axios": "^0.21.1",

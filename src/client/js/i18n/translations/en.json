@@ -164,6 +164,9 @@
     "userRoleAdmin": "Admin",
     "userRoleNormal": "Normal",
     "service": "Service",
+    "editorMode": "Editor Mode",
+    "RichTextMode": "Rich Text",
+    "TEXTMode": "Normal Text",
     "acceptServices": "Available services",
     "facebook": "Facebook",
     "twitter": "Twitter"

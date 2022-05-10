@@ -6,5 +6,6 @@
   "siteName": "Sample Site",
   "serviceIds": ["hoge,fuga"],
   "adminAuthHeader": "Authorization",
-  "adminAuthHeaderTokenPrefix": "Bearer"
+  "adminAuthHeaderTokenPrefix": "Bearer",
+  "tinyMCEApiKey": null
 }

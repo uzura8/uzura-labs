@@ -165,6 +165,9 @@
     "userRoleAdmin": "管理者",
     "userRoleNormal": "一般",
     "service": "サービス",
+    "editorMode": "エディタモード",
+    "RichTextMode": "リッチテキスト",
+    "TEXTMode": "テキスト",
     "acceptServices": "使用可能なサービス",
     "facebook": "Facebook",
     "twitter": "Twitter"

@@ -50,10 +50,44 @@
 
   <b-field
     :label="$t('form.body')"
+  >
+    <b-select v-model="editorMode">
+      <option
+        value="ritchText"
+        :disabled="isEnabledRichText === false"
+      >{{ $t('term.RichTextMode') }}</option>
+      <option value="text">{{ $t('term.TEXTMode') }}</option>
+    </b-select>
+  </b-field>
+
+  <b-field
     :type="checkEmpty(errors.body) ? '' : 'is-danger'"
     :message="checkEmpty(errors.body) ? '' : errors.body[0]"
   >
+
+    <editor
+      v-if="tinyMCEApiKey && editorMode === 'ritchText'"
+      v-model="body"
+      :api-key="tinyMCEApiKey"
+      :init="{
+        height: 500,
+        language: 'ja',
+        forced_root_block : false,
+        menubar: true,
+        plugins: [
+          'advlist','advcode','advtable','autolink','export','emoticons','hr',
+          'lists','link','image','preview','anchor','visualblocks',
+          'powerpaste','fullscreen','formatpainter','insertdatetime','table','help','wordcount'
+        ],
+        toolbar:
+          'undo redo pastetext | casechange blocks | bold italic backcolor forecolor | \
+          alignleft aligncenter alignright alignjustify | \
+          bullist numlst outdent indent | removeformat | hr table link emoticons | fullscreen preview code help'
+      }"
+    ></editor>
+
     <b-input
+      v-else-if="editorMode === 'text'"
       type="textarea"
       v-model="body"
       @blur="validate('body')"
@@ -176,11 +210,14 @@
 import moment from 'moment'
 import str from '@/util/str'
 import { Admin, Category, Tag } from '@/api'
+import Editor from '@tinymce/tinymce-vue'
+import config from '@/config/config'
 
 export default{
   name: 'AdminPostForm',
 
   components: {
+    'editor': Editor,
   },
 
   props: {
@@ -202,6 +239,7 @@ export default{
       fieldKeys: ['slug', 'category', 'title', 'body', 'tags', 'publishAt'],
       savedTags: [],
       filteredTags: [],
+      editorMode: 'ritchText',
     }
   },
 
@@ -236,6 +274,14 @@ export default{
       })
       return hasError
     },
+
+    tinyMCEApiKey() {
+      return config.tinyMCEApiKey
+    },
+
+    isEnabledRichText() {
+      return Boolean(this.tinyMCEApiKey)
+    },
   },
 
   watch: {
@@ -246,6 +292,7 @@ export default{
   },
 
   async created() {
+    if (this.isEnabledRichText === false) this.editorMode = 'text'
     this.setPost()
     this.setCategories()
     this.setTags()
