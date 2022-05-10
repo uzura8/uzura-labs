@@ -166,8 +166,8 @@
     "userRoleNormal": "一般",
     "service": "サービス",
     "editorMode": "エディタモード",
-    "RichTextMode": "リッチテキスト",
-    "TEXTMode": "テキスト",
+    "ritchText": "リッチテキスト",
+    "text": "テキスト",
     "acceptServices": "使用可能なサービス",
     "facebook": "Facebook",
     "twitter": "Twitter"

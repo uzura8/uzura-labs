@@ -50,13 +50,15 @@
 
   <b-field
     :label="$t('form.body')"
+    :message="checkEmpty(errors.editorModeOption) ? '' : errors.editorModeOption[0]"
   >
     <b-select v-model="editorMode">
       <option
-        value="ritchText"
-        :disabled="isEnabledRichText === false"
-      >{{ $t('term.RichTextMode') }}</option>
-      <option value="text">{{ $t('term.TEXTMode') }}</option>
+        v-for="editorMode in editorModes"
+        :value="editorMode.mode"
+        v-text="$t(`term['${editorMode.mode}']`)"
+        :disabled="editorMode.mode === 'ritchText' && isEnabledRichText === false"
+      ></option>
     </b-select>
   </b-field>
 
@@ -233,13 +235,23 @@ export default{
       category: '',
       title: '',
       body: '',
+      editorMode: 'ritchText',
       tags: [],
       publishAt: null,
       categories: [],
-      fieldKeys: ['slug', 'category', 'title', 'body', 'tags', 'publishAt'],
+      fieldKeys: ['slug', 'category', 'title', 'editorMode', 'body', 'tags', 'publishAt'],
       savedTags: [],
       filteredTags: [],
-      editorMode: 'ritchText',
+      editorModes: [
+        {
+          mode: 'ritchText',
+          format: 'html',
+        },
+        {
+          mode: 'text',
+          format: 'text',
+        },
+      ],
     }
   },
 
@@ -282,6 +294,10 @@ export default{
     isEnabledRichText() {
       return Boolean(this.tinyMCEApiKey)
     },
+
+    bodyFormat() {
+      return this.getFormatByMode(this.editorMode)
+    },
   },
 
   watch: {
@@ -308,6 +324,7 @@ export default{
         : ''
       this.title = this.post.title != null ? String(this.post.title) : ''
       this.body = this.post.body != null ? String(this.post.body) : ''
+      this.editorMode = this.getModeByFormat(this.post.bodyFormat)
       this.tags = this.checkEmpty(this.post.tags) === false ? this.post.tags : []
       this.publishAt = this.post.publishAt ? moment(this.post.publishAt).toDate() : null
     },
@@ -360,6 +377,7 @@ export default{
         vals.category = this.category
         vals.title = this.title
         vals.body = this.body
+        vals.bodyFormat = this.bodyFormat
 
         vals.tags = []
         this.tags.map((tag) => {
@@ -482,6 +500,15 @@ export default{
       if (this.checkEmpty(this.body)) this.errors.body.push(this.$t('msg["Input required"]'))
     },
 
+    validateEditorMode() {
+      this.initError('editorMode')
+      if (this.checkEmpty(this.editorMode)) {
+        this.errors.editorMode.push(this.$t('msg["Input required"]'))
+      } else if (this.editorModes.find(item => item.mode === this.editorMode) == null) {
+        this.errors.editorMode.push(this.$t('msg.InvalidInput'))
+      }
+    },
+
     validateTags() {
       this.initError('tags')
       this.tags.map((val) => {
@@ -518,6 +545,18 @@ export default{
           //.indexOf(text.toLowerCase()) >= 0
           .indexOf(text) >= 0
       })
+    },
+
+    getModeByFormat(format) {
+      const res = this.editorModes.find(item => item.format === format)
+      if (res == null) return ''
+      return res.mode
+    },
+
+    getFormatByMode(mode) {
+      const res = this.editorModes.find(item => item.mode === mode)
+      if (res == null) return ''
+      return res.format
     },
   },
 }
