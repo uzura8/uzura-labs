@@ -57,7 +57,7 @@
         v-for="editorMode in editorModes"
         :value="editorMode.mode"
         v-text="$t(`term['${editorMode.mode}']`)"
-        :disabled="editorMode.mode === 'ritchText' && isEnabledRichText === false"
+        :disabled="editorMode.mode === 'richText' && isEnabledRichText === false"
       ></option>
     </b-select>
   </b-field>
@@ -68,7 +68,7 @@
   >
 
     <editor
-      v-if="tinyMCEApiKey && editorMode === 'ritchText'"
+      v-if="tinyMCEApiKey && editorMode === 'richText'"
       v-model="body"
       :api-key="tinyMCEApiKey"
       :init="{
@@ -87,6 +87,12 @@
           bullist numlst outdent indent | removeformat | hr table link emoticons | fullscreen preview code help'
       }"
     ></editor>
+
+    <vue-simplemde
+      v-else-if="editorMode === 'markdown'"
+      v-model="body"
+      ref="markdownEditor"
+    ></vue-simplemde>
 
     <b-input
       v-else-if="editorMode === 'text'"
@@ -213,12 +219,14 @@ import moment from 'moment'
 import str from '@/util/str'
 import { Admin, Category, Tag } from '@/api'
 import Editor from '@tinymce/tinymce-vue'
+import VueSimplemde from 'vue-simplemde'
 import config from '@/config/config'
 
 export default{
   name: 'AdminPostForm',
 
   components: {
+    VueSimplemde,
     'editor': Editor,
   },
 
@@ -235,7 +243,7 @@ export default{
       category: '',
       title: '',
       body: '',
-      editorMode: 'ritchText',
+      editorMode: 'markdown',
       tags: [],
       publishAt: null,
       categories: [],
@@ -244,8 +252,12 @@ export default{
       filteredTags: [],
       editorModes: [
         {
-          mode: 'ritchText',
+          mode: 'richText',
           format: 'html',
+        },
+        {
+          mode: 'markdown',
+          format: 'markdown',
         },
         {
           mode: 'text',
@@ -360,7 +372,7 @@ export default{
       this.slug = ''
       this.category = ''
       this.title = ''
-      if (this.editorMode !== 'ritchText') {
+      if (this.editorMode !== 'richText') {
         this.body = ''
       }
       this.tags = []
@@ -561,4 +573,16 @@ export default{
   },
 }
 </script>
-
+<style>
+@import '~simplemde/dist/simplemde.min.css';
+.editor-preview {
+  &.editor-preview-active {
+    @import "../scss/browser-default.scss";
+  }
+}
+.editor-preview-side {
+  &.editor-preview-active-side {
+    @import "../scss/browser-default.scss";
+  }
+}
+</style>
