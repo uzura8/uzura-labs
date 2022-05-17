@@ -79,7 +79,10 @@
     </eb-dropdown>
   </div>
 
-  <div v-html="post.body"></div>
+  <post-body
+    :body="post.body"
+    :body-format="post.bodyFormat"
+  ></post-body>
 
   <ul class="mt-5">
     <li v-if="'category' in post && post.category">
@@ -114,6 +117,7 @@
 <script>
 import moment from '@/moment'
 import { Admin } from '@/api'
+import PostBody from '@/components/molecules/atoms/PostBody'
 import InlineTime from '@/components/molecules/atoms/InlineTime'
 import EbDropdown from '@/components/molecules/EbDropdown'
 
@@ -123,6 +127,7 @@ export default{
   components: {
     InlineTime,
     EbDropdown,
+    PostBody,
   },
 
   data(){
