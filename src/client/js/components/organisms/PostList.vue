@@ -18,7 +18,7 @@
           </div>
 
           <div class="content">
-            <div v-html="post.body"></div>
+            <div v-text="post.bodyText"></div>
             <div class="mt-5">
               <time
                 itemprop="datepublished"

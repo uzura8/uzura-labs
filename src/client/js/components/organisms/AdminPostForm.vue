@@ -243,7 +243,7 @@ export default{
       category: '',
       title: '',
       body: '',
-      editorMode: 'markdown',
+      editorMode: 'richText',
       tags: [],
       publishAt: null,
       categories: [],

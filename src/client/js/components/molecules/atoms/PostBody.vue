@@ -18,10 +18,10 @@ export default{
       type: String,
       default: '',
     },
-    bodyFormat: {
-      type: String,
-      default: 'html',
-    }
+    //bodyFormat: {
+    //  type: String,
+    //  default: 'html',
+    //}
   },
 
   data(){

@@ -8,7 +8,10 @@
   </div>
 
   <h1 class="title">{{ post.title }}</h1>
-  <div v-html="post.body"></div>
+
+  <post-body
+    :body="post.bodyHtml"
+  ></post-body>
 
   <div class="mt-5">
     <time
@@ -53,9 +56,14 @@
 </template>
 <script>
 import { Post } from '@/api'
+import PostBody from '@/components/molecules/atoms/PostBody'
 
 export default{
   name: 'Post',
+
+  components: {
+    PostBody,
+  },
 
   data(){
     return {

@@ -80,8 +80,7 @@
   </div>
 
   <post-body
-    :body="post.body"
-    :body-format="post.bodyFormat"
+    :body="post.bodyHtml"
   ></post-body>
 
   <ul class="mt-5">
