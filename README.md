@@ -8,8 +8,10 @@ You need below
 
 * nodeJS >= v14.15.X
 
-
-## Setup GitHub Actions for deploying static site
+#### Setup about TinyMCE Editor
+* Access to [TinyMCE Dashbord](https://www.tiny.cloud/my-account/dashboard/)
+* Get Your Tiny API Key
+* Move to [Approved Domains](https://www.tiny.cloud/my-account/domains/), then Add your static-site domain
 
 ### Set enviroment variables
 
@@ -45,7 +47,10 @@ vi src/client/js/config/config.json
   "port": null,
   "baseUrl": "/",
   "isSSL": true,
-  "siteName": "Sample Site"
+  "siteName": "Sample Site",
+  "adminAuthHeader": "Authorization",
+  "adminAuthHeaderTokenPrefix": "Bearer",
+  "tinyMCEApiKey": "Set TinyMCE API-Key of your account"
 }
 ```
 
