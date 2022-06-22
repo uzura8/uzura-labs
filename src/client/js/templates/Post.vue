@@ -13,6 +13,18 @@
     :body="post.bodyHtml"
   ></post-body>
 
+  <div
+    v-if="votes"
+    class="mt-5"
+  >
+    <vote-unit
+      :vote-types="voteTypes"
+      :posted-votes="votes"
+      :content-id="post.postId"
+      @post-vote="postVote"
+    ></vote-unit>
+  </div>
+
   <div class="mt-5">
     <time
       itemprop="datepublished"
@@ -52,22 +64,40 @@
     </li>
   </ul>
 
+  <section
+    v-if="isEnabledComment"
+    class="mt-6"
+  >
+    <h3 class="title is-4">{{ $t('common.comments') }}</h3>
+
+    <comments
+      v-if="post"
+      :content-id="post.postId"
+    ></comments>
+  </section>
+
 </div>
 </template>
 <script>
-import { Post } from '@/api'
+import config from '@/config/config'
+import { Post, Vote } from '@/api'
 import PostBody from '@/components/molecules/atoms/PostBody'
+import Comments from '@/components/organisms/Comments'
+import VoteUnit from '@/components/organisms/VoteUnit'
 
 export default{
   name: 'Post',
 
   components: {
     PostBody,
+    Comments,
+    VoteUnit,
   },
 
   data(){
     return {
       post: null,
+      votes: [],
     }
   },
 
@@ -75,15 +105,61 @@ export default{
     slug() {
       return this.$route.params.slug
     },
+
+    voteTypes() {
+      return config.voteTypesDefault
+    },
+
+    isEnabledComment() {
+      return config.isEnabledComment
+    },
   },
 
-  created() {
-    this.getPost()
+  watch: {
+  },
+
+  async created() {
+    await this.setPost()
+    await this.fetchVotes()
   },
 
   methods: {
-    async getPost() {
-      this.post = await Post.get(this.serviceId, this.slug)
+    async setPost() {
+      this.$store.dispatch('setLoading', true)
+      try {
+        this.post = await Post.get(this.serviceId, this.slug)
+        this.$store.dispatch('setLoading', false)
+      } catch (err) {
+        console.log(err);//!!!!!!
+        this.$store.dispatch('setLoading', false)
+        this.handleApiError(err, this.$t('msg["Failed to get data from server"]'))
+      }
+    },
+
+    async fetchVotes() {
+      this.$store.dispatch('setLoading', true)
+      try {
+        this.votes = await Vote.get(this.serviceId, this.post.postId)
+        this.$store.dispatch('setLoading', false)
+      } catch (err) {
+        console.log(err);//!!!!!!
+        this.$store.dispatch('setLoading', false)
+        this.handleApiError(err, this.$t('msg["Failed to get data from server"]'))
+      }
+    },
+
+    async postVote(voteType) {
+      this.$store.dispatch('setLoading', true)
+      try {
+        const vals = { 'type': voteType }
+        this.votes = await Vote.post(this.serviceId, this.post.postId, vals)
+        //this.voteCount = res[0].voteCount
+        this.$store.dispatch('setLoading', false)
+      } catch (err) {
+        console.log(err);//!!!!!!
+        this.$store.dispatch('setLoading', false)
+        this.handleApiError(err, this.$t('msg["Failed to get data from server"]'))
+      }
     },
   },
 }
