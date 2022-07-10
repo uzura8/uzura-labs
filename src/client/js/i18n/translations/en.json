@@ -169,6 +169,7 @@
     "richText": "Rich Text",
     "markdown": "Markdown",
     "text": "Normal Text",
+    "mathjax": "MathJax",
     "acceptServices": "Available services",
     "facebook": "Facebook",
     "twitter": "Twitter"

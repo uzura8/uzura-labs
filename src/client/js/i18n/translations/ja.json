@@ -170,6 +170,7 @@
     "richText": "リッチテキスト",
     "markdown": "Markdown",
     "text": "テキスト",
+    "mathjax": "MathJax",
     "acceptServices": "使用可能なサービス",
     "facebook": "Facebook",
     "twitter": "Twitter"

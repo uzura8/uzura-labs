@@ -67,6 +67,7 @@
     :message="checkEmpty(errors.body) ? '' : errors.body[0]"
   >
 
+    <!--
     <editor
       v-if="tinyMCEApiKey && editorMode === 'richText'"
       v-model="body"
@@ -87,6 +88,7 @@
           bullist numlst outdent indent | removeformat | hr table link emoticons | fullscreen preview code help'
       }"
     ></editor>
+    -->
 
     <!--
     <vue-simplemde
@@ -97,12 +99,25 @@
     -->
 
     <b-input
-      v-else-if="editorMode === 'text'"
+      v-if="editorMode === 'text'"
+      type="textarea"
+      v-model="body"
+      @blur="validate('body')"
+    ></b-input>
+
+    <b-input
+      v-else-if="editorMode === 'mathjax'"
       type="textarea"
       v-model="body"
       @blur="validate('body')"
     ></b-input>
   </b-field>
+
+    <div
+      v-if="editorMode === 'mathjax'"
+    >
+      <vue-mathjax :formula="body"></vue-mathjax>
+    </div>
 
   <b-field
     :label="$t('common.tag')"
@@ -218,9 +233,10 @@
 </template>
 <script>
 import moment from 'moment'
+import { VueMathjax } from 'vue-mathjax'
 import str from '@/util/str'
 import { Admin, Category, Tag } from '@/api'
-import Editor from '@tinymce/tinymce-vue'
+//import Editor from '@tinymce/tinymce-vue'
 //import VueSimplemde from 'vue-simplemde'
 import config from '@/config/config'
 
@@ -228,8 +244,7 @@ export default{
   name: 'AdminPostForm',
 
   components: {
-    //VueSimplemde,
-    'editor': Editor,
+    VueMathjax: VueMathjax,
   },
 
   props: {
@@ -245,7 +260,7 @@ export default{
       category: '',
       title: '',
       body: '',
-      editorMode: 'richText',
+      editorMode: 'mathjax',
       tags: [],
       publishAt: null,
       categories: [],
@@ -253,13 +268,17 @@ export default{
       savedTags: [],
       filteredTags: [],
       editorModes: [
+        //{
+        //  mode: 'richText',
+        //  format: 'html',
+        //},
+        //{
+        //  mode: 'markdown',
+        //  format: 'markdown',
+        //},
         {
-          mode: 'richText',
-          format: 'html',
-        },
-        {
-          mode: 'markdown',
-          format: 'markdown',
+          mode: 'mathjax',
+          format: 'mathjax',
         },
         {
           mode: 'text',

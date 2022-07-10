@@ -10,7 +10,9 @@
   <h1 class="title">{{ post.title }}</h1>
 
   <post-body
-    :body="post.bodyHtml"
+    :body-text="post.bodyText"
+    :body-html="post.bodyHtml"
+    :format="post.bodyFormat"
   ></post-body>
 
   <div
